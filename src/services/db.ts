@@ -1,4 +1,3 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
   Service,
   Professional,
@@ -18,18 +17,7 @@ import {
   initialReviews,
 } from './mockData';
 
-// Setup Supabase Client if keys exist
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const isSupabaseConfigured = Boolean(
-  supabaseUrl && supabaseAnonKey && supabaseUrl.startsWith('http')
-);
-
-export const supabase: SupabaseClient | null = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
-
-// Storage keys for offline / demo mode
+// Frontend storage keys
 const STORAGE_KEYS = {
   SERVICES: 'carepulse_services_v1',
   PROFESSIONALS: 'carepulse_professionals_v1',
@@ -40,8 +28,8 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: 'carepulse_notifications_v1',
 };
 
-// Dispatch local storage updates event
-const DB_CHANGE_EVENT = 'carepulse_db_change';
+// Dispatch frontend storage updates event for UI reactivity
+const DB_CHANGE_EVENT = 'carepulse_frontend_change';
 const notifyDbChange = () => {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent(DB_CHANGE_EVENT));
@@ -76,16 +64,12 @@ function setLocal<T>(key: string, data: T): void {
     localStorage.setItem(key, JSON.stringify(data));
     notifyDbChange();
   } catch (e) {
-    console.error('LocalStorage write error:', e);
+    console.error('Frontend storage write error:', e);
   }
 }
 
 export const dbService = {
-  isConfigured(): boolean {
-    return isSupabaseConfigured;
-  },
-
-  // RESET
+  // RESET FRONTEND DATA
   resetToDemoData(): void {
     if (typeof localStorage === 'undefined') return;
     localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(initialServices));
@@ -100,10 +84,6 @@ export const dbService = {
 
   // SERVICES
   async getServices(): Promise<Service[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('services').select('*').order('name');
-      if (!error && data) return data as Service[];
-    }
     return getLocal<Service[]>(STORAGE_KEYS.SERVICES, initialServices);
   },
 
@@ -113,9 +93,6 @@ export const dbService = {
   },
 
   async saveService(service: Service): Promise<Service> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('services').upsert(service);
-    }
     const current = getLocal<Service[]>(STORAGE_KEYS.SERVICES, initialServices);
     const existingIndex = current.findIndex((s) => s.id === service.id);
     if (existingIndex >= 0) {
@@ -128,9 +105,6 @@ export const dbService = {
   },
 
   async deleteService(id: string): Promise<void> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('services').delete().eq('id', id);
-    }
     const current = getLocal<Service[]>(STORAGE_KEYS.SERVICES, initialServices);
     const updated = current.filter((s) => s.id !== id);
     setLocal(STORAGE_KEYS.SERVICES, updated);
@@ -138,10 +112,6 @@ export const dbService = {
 
   // PROFESSIONALS
   async getProfessionals(): Promise<Professional[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('professionals').select('*');
-      if (!error && data) return data as Professional[];
-    }
     return getLocal<Professional[]>(STORAGE_KEYS.PROFESSIONALS, initialProfessionals);
   },
 
@@ -151,9 +121,6 @@ export const dbService = {
   },
 
   async saveProfessional(pro: Professional): Promise<Professional> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('professionals').upsert(pro);
-    }
     const current = getLocal<Professional[]>(STORAGE_KEYS.PROFESSIONALS, initialProfessionals);
     const index = current.findIndex((p) => p.id === pro.id);
     if (index >= 0) {
@@ -167,10 +134,6 @@ export const dbService = {
 
   // PATIENTS
   async getPatients(): Promise<Patient[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('patients').select('*');
-      if (!error && data) return data as Patient[];
-    }
     return getLocal<Patient[]>(STORAGE_KEYS.PATIENTS, initialPatients);
   },
 
@@ -180,9 +143,6 @@ export const dbService = {
   },
 
   async savePatient(patient: Patient): Promise<Patient> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('patients').upsert(patient);
-    }
     const current = getLocal<Patient[]>(STORAGE_KEYS.PATIENTS, initialPatients);
     const index = current.findIndex((p) => p.id === patient.id);
     if (index >= 0) {
@@ -196,13 +156,6 @@ export const dbService = {
 
   // BOOKINGS
   async getBookings(): Promise<Booking[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (!error && data) return data as Booking[];
-    }
     return getLocal<Booking[]>(STORAGE_KEYS.BOOKINGS, initialBookings);
   },
 
@@ -222,14 +175,11 @@ export const dbService = {
   },
 
   async createBooking(booking: Booking): Promise<Booking> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('bookings').insert(booking);
-    }
     const current = getLocal<Booking[]>(STORAGE_KEYS.BOOKINGS, initialBookings);
     current.unshift(booking);
     setLocal(STORAGE_KEYS.BOOKINGS, current);
 
-    // Create confirmation notification
+    // Create confirmation notification in frontend store
     await this.addNotification({
       id: `notif-${Date.now()}`,
       userId: booking.patientId,
@@ -254,22 +204,10 @@ export const dbService = {
     const booking = current.find((b) => b.id === bookingId);
     if (!booking) throw new Error('Booking not found');
 
-    const previousStatus = booking.status;
     booking.status = status;
     booking.updatedAt = new Date().toISOString();
     if (status === 'cancelled' && notes) {
       booking.cancellationReason = notes;
-    }
-
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('bookings').update({ status, updated_at: booking.updatedAt }).eq('id', bookingId);
-      await supabase.from('booking_status_history').insert({
-        booking_id: bookingId,
-        from_status: previousStatus,
-        to_status: status,
-        updated_by: updatedBy,
-        notes,
-      });
     }
 
     setLocal(STORAGE_KEYS.BOOKINGS, current);
@@ -300,8 +238,8 @@ export const dbService = {
     await this.addNotification({
       id: `notif-${Date.now()}`,
       userId: booking.patientId,
-      title: statusTitles[status],
-      message: statusMessages[status],
+      title: statusTitles[status] || 'Booking Update',
+      message: statusMessages[status] || `Status updated to ${status}`,
       type: status === 'cancelled' ? 'cancellation' : 'booking',
       isRead: false,
       createdAt: new Date().toISOString(),
@@ -324,17 +262,6 @@ export const dbService = {
     booking.assignedProfessional = assignedPro;
     booking.status = 'assigned';
     booking.updatedAt = new Date().toISOString();
-
-    if (isSupabaseConfigured && supabase) {
-      await supabase
-        .from('bookings')
-        .update({
-          assigned_professional_id: professionalId,
-          status: 'assigned',
-          updated_at: booking.updatedAt,
-        })
-        .eq('id', bookingId);
-    }
 
     setLocal(STORAGE_KEYS.BOOKINGS, current);
 
@@ -367,10 +294,6 @@ export const dbService = {
 
   // REPORTS
   async getReports(): Promise<MedicalReport[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('reports').select('*');
-      if (!error && data) return data as MedicalReport[];
-    }
     return getLocal<MedicalReport[]>(STORAGE_KEYS.REPORTS, initialReports);
   },
 
@@ -380,9 +303,6 @@ export const dbService = {
   },
 
   async saveReport(report: MedicalReport): Promise<MedicalReport> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('reports').upsert(report);
-    }
     const current = getLocal<MedicalReport[]>(STORAGE_KEYS.REPORTS, initialReports);
     const idx = current.findIndex((r) => r.bookingId === report.bookingId);
     if (idx >= 0) {
@@ -392,8 +312,13 @@ export const dbService = {
     }
     setLocal(STORAGE_KEYS.REPORTS, current);
 
-    // Auto update booking to completed
-    await this.updateBookingStatus(report.bookingId, 'completed', 'Report submitted by clinician', report.professionalName);
+    // Update booking to completed
+    await this.updateBookingStatus(
+      report.bookingId,
+      'completed',
+      'Report submitted by clinician',
+      report.professionalName
+    );
 
     // Notify patient
     await this.addNotification({
@@ -412,17 +337,10 @@ export const dbService = {
 
   // REVIEWS
   async getReviews(): Promise<Review[]> {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('reviews').select('*');
-      if (!error && data) return data as Review[];
-    }
     return getLocal<Review[]>(STORAGE_KEYS.REVIEWS, initialReviews);
   },
 
   async addReview(review: Review): Promise<Review> {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('reviews').insert(review);
-    }
     const current = getLocal<Review[]>(STORAGE_KEYS.REVIEWS, initialReviews);
     current.unshift(review);
     setLocal(STORAGE_KEYS.REVIEWS, current);
