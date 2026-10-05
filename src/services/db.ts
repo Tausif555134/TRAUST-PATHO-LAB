@@ -19,17 +19,17 @@ import {
 
 // Frontend storage keys
 const STORAGE_KEYS = {
-  SERVICES: 'carepulse_services_v1',
-  PROFESSIONALS: 'carepulse_professionals_v1',
-  PATIENTS: 'carepulse_patients_v1',
-  BOOKINGS: 'carepulse_bookings_v1',
-  REPORTS: 'carepulse_reports_v1',
-  REVIEWS: 'carepulse_reviews_v1',
-  NOTIFICATIONS: 'carepulse_notifications_v1',
+  SERVICES: 'trust_patho_lab_services_v1',
+  PROFESSIONALS: 'trust_patho_lab_professionals_v1',
+  PATIENTS: 'trust_patho_lab_patients_v1',
+  BOOKINGS: 'trust_patho_lab_bookings_v1',
+  REPORTS: 'trust_patho_lab_reports_v1',
+  REVIEWS: 'trust_patho_lab_reviews_v1',
+  NOTIFICATIONS: 'trust_patho_lab_notifications_v1',
 };
 
 // Dispatch frontend storage updates event for UI reactivity
-const DB_CHANGE_EVENT = 'carepulse_frontend_change';
+const DB_CHANGE_EVENT = 'trust_patho_lab_frontend_change';
 const notifyDbChange = () => {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent(DB_CHANGE_EVENT));

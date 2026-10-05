@@ -154,7 +154,7 @@ export const AdminDashboard: React.FC = () => {
       name: proFormData.name || 'Healthcare Professional',
       role: (proFormData.role as ProfessionalRole) || 'Doctor',
       phone: proFormData.phone || '+91 98000 00000',
-      email: proFormData.email || 'pro@carepulse.internal',
+      email: proFormData.email || 'pro@trustpatholab.internal',
       qualification: proFormData.qualification || 'MBBS / Registered',
       experienceYears: Number(proFormData.experienceYears) || 3,
       serviceTypes: proFormData.serviceTypes || ['srv-1'],
@@ -219,7 +219,7 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
-                CarePulse Operations Console
+                TRUST PATHO LAB Operations Console
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">

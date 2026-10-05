@@ -72,10 +72,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </button>
           <div className="flex items-center gap-2 mb-2 text-brand-100 text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-amber-300" />
-            CarePulse Secure Portal
+            TRUST PATHO LAB Secure Portal
           </div>
           <h3 className="text-xl font-bold">
-            {mode === 'login' && 'Sign in to CarePulse'}
+            {mode === 'login' && 'Sign in to TRUST PATHO LAB'}
             {mode === 'signup' && 'Create Your Patient Account'}
             {mode === 'forgot' && 'Reset Your Password'}
           </h3>

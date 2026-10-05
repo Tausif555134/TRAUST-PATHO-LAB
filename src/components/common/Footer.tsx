@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
                 Medical Emergency Notice
               </h4>
               <p className="text-xs text-rose-300/80 mt-0.5 leading-relaxed">
-                CarePulse home visits are strictly for scheduled consultations, diagnostics, routine nursing, and non-emergency checkups. In case of acute chest pain, breathlessness, head trauma, or life-threatening emergencies, please dial <strong>108 / 102</strong> immediately or visit the nearest emergency trauma center.
+                TRUST PATHO LAB home visits are strictly for scheduled consultations, diagnostics, routine nursing, and non-emergency checkups. In case of acute chest pain, breathlessness, head trauma, or life-threatening emergencies, please dial <strong>108 / 102</strong> immediately or visit the nearest emergency trauma center.
               </p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
                 <HeartPulse className="w-5 h-5 stroke-[2.2]" />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
-                Care<span className="text-brand-400">Pulse</span>
+                TRUST <span className="text-brand-400">PATHO LAB</span>
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -132,11 +132,11 @@ export const Footer: React.FC = () => {
             <div className="space-y-2 text-xs text-slate-400">
               <p className="flex items-center gap-2">
                 <PhoneCall className="w-3.5 h-3.5 text-brand-400" />
-                Toll Free: 1800-CARE-PULSE
+                Toll Free: 1800-TRUST-LAB
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-brand-400" />
-                care@carepulse.internal
+                care@trustpatholab.com
               </p>
               <p className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-brand-400 shrink-0 mt-0.5" />
@@ -149,7 +149,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Credits & Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div>
-            &copy; {new Date().getFullYear()} CarePulse Healthcare Technologies Pvt. Ltd. All rights reserved.
+            &copy; {new Date().getFullYear()} TRUST PATHO LAB Healthcare Technologies Pvt. Ltd. All rights reserved.
           </div>
           <div className="flex gap-6">
             <span className="hover:text-slate-400 cursor-pointer">Patient Privacy Policy</span>

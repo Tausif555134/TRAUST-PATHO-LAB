@@ -25,7 +25,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
   const [personaDropdownOpen, setPersonaDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  const hotline = import.meta.env.VITE_HOTLINE_PHONE || '1800-CARE-PULSE';
+  const hotline = import.meta.env.VITE_HOTLINE_PHONE || '1800-TRUST-LAB';
 
   const getDashboardPath = () => {
     if (role === 'admin') return '/admin';
@@ -181,10 +181,10 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
           </div>
           <div>
             <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-brand-600 transition">
-              Care<span className="text-brand-600">Pulse</span>
+              TRUST <span className="text-brand-600">PATHO LAB</span>
             </span>
             <span className="block text-[10px] font-medium tracking-wider text-slate-400 uppercase -mt-1">
-              Home Healthcare
+              Pathology & Diagnostics
             </span>
           </div>
         </Link>

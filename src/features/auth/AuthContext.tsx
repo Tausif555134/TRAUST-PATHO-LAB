@@ -53,7 +53,7 @@ const DEMO_PROFILES: Record<string, UserProfile> = {
   },
   admin: {
     id: 'admin-super',
-    email: 'admin@carepulse.internal',
+    email: 'admin@trustpatholab.internal',
     fullName: 'Operations Command Center',
     phone: '+91 99999 88888',
     role: 'admin',
@@ -62,7 +62,7 @@ const DEMO_PROFILES: Record<string, UserProfile> = {
   },
 };
 
-const AUTH_STORAGE_KEY = 'carepulse_auth_user_v1';
+const AUTH_STORAGE_KEY = 'trust_patho_lab_auth_user_v1';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Default or dynamic login
     const user: UserProfile = {
       id: `usr-${Date.now()}`,
-      email: emailOrPhone.includes('@') ? emailOrPhone : `${emailOrPhone}@patient.carepulse.in`,
+      email: emailOrPhone.includes('@') ? emailOrPhone : `${emailOrPhone}@patient.trustpatholab.com`,
       fullName: 'Valued Patient',
       phone: emailOrPhone.includes('@') ? '+91 98765 00000' : emailOrPhone,
       role: preferredRole,

@@ -1,22 +1,22 @@
-# CarePulse — Home Healthcare & Doorstep Checkup Webpage
+# TRUST PATHO LAB — Doorstep Pathology & Diagnostics Webpage
 
-A modern, responsive, pure **Frontend Web Application** for home healthcare checkup booking built with **React 18**, **TypeScript**, and **Tailwind CSS**.
+A modern, responsive, pure **Frontend Web Application** for doorstep pathology tests, certified blood sample collections, and home healthcare checkup booking built with **React 18**, **TypeScript**, and **Tailwind CSS**.
 
 ---
 
 ## 🌟 Overview
 
-CarePulse is a clean, client-side healthcare platform designed for high performance, smooth interactivity, and zero backend friction. All data flows, state changes, and booking workflows are managed on the frontend.
+**TRUST PATHO LAB** is a clean, client-side healthcare platform designed for high performance, smooth interactivity, and zero backend friction. All data flows, state changes, and booking workflows are managed seamlessly on the frontend.
 
 ### Frontend Pages & Features:
 1. **Landing Page (`HomePage.tsx`)**:
-   - Healthcare hero banner with 45-minute rapid doctor dispatch badge.
-   - Trust and safety highlights (verified clinicians, cold-chain transport, transparent pricing).
+   - Healthcare hero banner with 45-minute rapid phlebotomist / doctor dispatch badge.
+   - Trust and safety highlights (verified clinicians, cold-chain sample transport, transparent pricing).
    - Dynamic clinical catalog with live search and category filtering.
-   - 4-step "How It Works" visual breakdown.
+   - 4-step "How TRUST PATHO LAB Works" visual breakdown.
    - Patient testimonials and emergency disclaimers (108 / 102).
 2. **Service Details (`ServiceDetailsPage.tsx`)**:
-   - In-depth clinical inclusions and patient preparation warnings.
+   - In-depth clinical inclusions and patient preparation warnings (fasting requirements, hydration).
    - Interactive 7-day date selector and 1-hour time slot picker.
 3. **5-Step Booking Wizard (`BookingPage.tsx`)**:
    - Step 1: Service selection and price review.

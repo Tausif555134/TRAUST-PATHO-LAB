@@ -64,13 +64,13 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
               </div>
               <div>
                 <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-                  Care<span className="text-brand-600">Pulse</span> Home Healthcare
+                  TRUST <span className="text-brand-600">PATHO LAB</span> Diagnostics
                 </h1>
                 <p className="text-xs text-slate-500 font-medium">
-                  ISO 9001:2015 Certified Doorstep Clinical Services · NABH Standards
+                  ISO 9001:2015 &amp; NABL Standards · Certified Doorstep Diagnostic Services
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  Central Registry: 24/7 Helpline 1800-CARE-PULSE · www.carepulse.in
+                  Central Registry: 24/7 Helpline 1800-TRUST-LAB · www.trustpatholab.com
                 </p>
               </div>
             </div>
@@ -271,7 +271,7 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
                 Authorized Signatory
               </div>
               <div className="text-[10px] text-slate-500">
-                CarePulse Mobile Medical Services
+                TRUST PATHO LAB Diagnostic Services
               </div>
             </div>
           </div>

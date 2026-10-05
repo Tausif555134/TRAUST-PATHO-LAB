@@ -303,7 +303,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
         {/* Wizard Header */}
         <div className="text-center mb-8">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-600">
-            CarePulse Doorstep Checkup Booking
+            TRUST PATHO LAB Doorstep Diagnostics &amp; Checkup Booking
           </span>
           <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
             Book Healthcare at Home

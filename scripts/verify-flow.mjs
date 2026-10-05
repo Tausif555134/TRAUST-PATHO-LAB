@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 console.log('====================================================');
-console.log('CarePulse Frontend Healthcare Webpage - Verification');
+console.log('TRUST PATHO LAB Frontend Diagnostics - Verification');
 console.log('====================================================\n');
 
 let passedTests = 0;

@@ -164,7 +164,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              Why Families Trust CarePulse
+              Why Families Trust TRUST PATHO LAB
             </h2>
             <p className="text-sm text-slate-600 mt-2">
               We uphold the highest clinical standards of hospital infection control, privacy, and clinician credentialing.
@@ -317,7 +317,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               Seamless Patient Experience
             </span>
             <h2 className="text-3xl font-extrabold text-slate-900 mt-1">
-              How CarePulse Works
+              How TRUST PATHO LAB Works
             </h2>
             <p className="text-sm text-slate-600 mt-2">
               Get professional medical care at home in 4 straightforward steps.
@@ -436,11 +436,11 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               Book a Home Visit Now
             </Link>
             <a
-              href="tel:1800-CARE-PULSE"
+              href="tel:1800-TRUST-LAB"
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm border border-slate-700 transition flex items-center justify-center gap-2"
             >
               <PhoneCall className="w-4 h-4 text-emerald-400" />
-              Call 1800-CARE-PULSE
+              Call 1800-TRUST-LAB
             </a>
           </div>
         </div>
