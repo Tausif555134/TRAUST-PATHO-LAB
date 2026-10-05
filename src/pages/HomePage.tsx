@@ -164,7 +164,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              Why Families Trust TRUST PATHO LAB
+              Why Families Rely on TRUST PATHO LAB
             </h2>
             <p className="text-sm text-slate-600 mt-2">
               We uphold the highest clinical standards of hospital infection control, privacy, and clinician credentialing.
