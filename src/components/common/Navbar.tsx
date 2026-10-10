@@ -67,6 +67,10 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
               <a href="tel:6299476228" className="hover:text-gold-200 underline decoration-dotted transition hidden sm:inline">
                 6299476228
               </a>
+              <span className="text-slate-500 hidden md:inline">/</span>
+              <a href="tel:9142661354" className="hover:text-gold-200 underline decoration-dotted transition hidden md:inline">
+                9142661354
+              </a>
             </div>
 
             <a
@@ -217,7 +221,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
         </Link>
 
         {/* Desktop Links */}
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-5">
           <Link
             to="/"
             className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
@@ -237,19 +241,25 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
             href="/#services-section"
             className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
           >
-            8 Clinical Facilities
+            Clinical Facilities
           </a>
           <a
             href="/#lab-details"
             className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
           >
-            About Lab & Reg.
+            About Lab
           </a>
           <a
             href="/#how-it-works"
             className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
           >
             How It Works
+          </a>
+          <a
+            href="/#lab-details"
+            className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
+          >
+            Contact
           </a>
         </nav>
 
@@ -397,42 +407,71 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-2">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-medium text-slate-800 hover:text-brand-600"
+            className="block py-2 text-sm font-semibold text-slate-800 hover:text-brand-600"
           >
             Home
           </Link>
           <a
+            href="/#test-price-list"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between py-2 text-sm font-bold text-brand-900 hover:text-gold-600"
+          >
+            <span>Test Price List</span>
+            <span className="text-[10px] bg-gold-100 text-gold-900 border border-gold-400 font-bold px-2 py-0.5 rounded-full">
+              62 Tests
+            </span>
+          </a>
+          <a
             href="/#services-section"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-medium text-slate-800 hover:text-brand-600"
+            className="block py-2 text-sm font-medium text-slate-700 hover:text-brand-600"
           >
-            Services Catalog
+            Clinical Facilities
+          </a>
+          <a
+            href="/#lab-details"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-medium text-slate-700 hover:text-brand-600"
+          >
+            About Lab
           </a>
           <a
             href="/#how-it-works"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-medium text-slate-800 hover:text-brand-600"
+            className="block py-2 text-sm font-medium text-slate-700 hover:text-brand-600"
           >
             How It Works
           </a>
           <a
-            href="/#trust-section"
+            href="/#lab-details"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-medium text-slate-800 hover:text-brand-600"
+            className="block py-2 text-sm font-medium text-slate-700 hover:text-brand-600"
           >
-            Safety & Trust
+            Contact
           </a>
-          <Link
-            to="/book"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-brand-600"
-          >
-            Book a Home Checkup Now →
-          </Link>
+          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20test%20collection."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 rounded-xl transition"
+            >
+              <PhoneCall className="w-3.5 h-3.5" />
+              <span>WhatsApp Gaya Desk</span>
+            </a>
+            <Link
+              to="/book"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-2.5 rounded-xl border border-gold-500/40 transition"
+            >
+              <Calendar className="w-3.5 h-3.5 text-gold-400" />
+              <span>Book Home Visit</span>
+            </Link>
+          </div>
           {isAuthenticated && (
             <Link
               to={getDashboardPath()}
