@@ -98,7 +98,7 @@ console.log('Creating commit...');
 const commitSha = await git.commit({
   fs,
   dir: repoDir,
-  message: 'fix: mobile responsiveness audit and layout fixes across all viewports',
+  message: process.argv[2] || 'refactor: split single page into clean multi-page public architecture (/, /tests, /book, /contact)',
   author: {
     name: 'Tausif555134',
     email: 'tousifalalm5@gmail.com',
