@@ -640,7 +640,7 @@ export const initialReviews: Review[] = [
 export const officialLabInfo: LabInfo = {
   name: 'Trust Patho Lab',
   subtitle: 'Pathology Laboratory',
-  registrationNo: '2291212131723',
+  registrationNo: '229112131723',
   address: 'Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002, Bihar',
   phones: ['6206175583', '6299476228', '9142661354'],
   whatsapp: '6206175583',

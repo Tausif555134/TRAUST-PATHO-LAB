@@ -47,7 +47,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
           {/* Reg No & Gaya Address */}
           <div className="flex items-center gap-3 text-[11px] text-slate-300">
             <span className="hidden lg:inline text-gold-400 font-bold">
-              Reg. No. 2291212131723
+              Reg. No. 229112131723
             </span>
             <span className="hidden md:inline text-slate-400">•</span>
             <span className="hidden md:inline text-slate-300 truncate max-w-xs xl:max-w-md">

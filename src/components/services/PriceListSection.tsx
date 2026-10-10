@@ -15,6 +15,7 @@ import {
   Share2,
   ExternalLink,
   Info,
+  Download,
 } from 'lucide-react';
 import { dbService } from '../../services/db';
 import { LabTest, LabCategory } from '../../types';
@@ -47,6 +48,7 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
   const [priceRange, setPriceRange] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
+  const [flyerModalTab, setFlyerModalTab] = useState<'structured' | 'original'>('structured');
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
@@ -104,7 +106,7 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-800 text-xs font-semibold mb-3">
             <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-            <span>Govt. Reg. No. 2291212131723 • Estd. 2024</span>
+            <span>Govt. Reg. No. 229112131723 • Estd. 2024</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-obsidian-950 tracking-tight">
@@ -440,19 +442,50 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
       {showPrintModal && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto animate-in fade-in">
           <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 relative">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200 no-print">
-              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Printer className="w-5 h-5 text-brand-700" />
-                Official Trust Patho Lab Price List Document
-              </h3>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200 gap-3 no-print">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Printer className="w-5 h-5 text-brand-700" />
+                  Official Trust Patho Lab Price List
+                </h3>
+                <p className="text-xs text-slate-500">Government Registered Rate Master • 62 Pathology Tests</p>
+              </div>
+
+              {/* View Switcher: Document vs Original Photo */}
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => window.print()}
-                  className="bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5"
-                >
-                  <Printer className="w-4 h-4" />
-                  Print Now
-                </button>
+                <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                  <button
+                    onClick={() => setFlyerModalTab('structured')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                      flyerModalTab === 'structured'
+                        ? 'bg-white text-purple-950 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Printable Document
+                  </button>
+                  <button
+                    onClick={() => setFlyerModalTab('original')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                      flyerModalTab === 'original'
+                        ? 'bg-white text-purple-950 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Original Flyer Photo
+                  </button>
+                </div>
+
+                {flyerModalTab === 'structured' && (
+                  <button
+                    onClick={() => window.print()}
+                    className="bg-purple-950 hover:bg-purple-900 text-amber-300 font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs"
+                  >
+                    <Printer className="w-4 h-4" />
+                    Print
+                  </button>
+                )}
+
                 <button
                   onClick={() => setShowPrintModal(false)}
                   className="text-slate-400 hover:text-slate-600 p-2 text-sm font-bold"
@@ -462,13 +495,33 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
               </div>
             </div>
 
-            {/* Printable Content Matching Flyer */}
-            <div className="mt-4 printable-report border border-slate-300 p-6 rounded-2xl bg-white">
-              {/* Header Box */}
-              <div className="bg-obsidian-950 text-white p-6 rounded-xl border-2 border-gold-500/60 mb-6">
+            {/* View Mode 1: Original Flyer Photo */}
+            {flyerModalTab === 'original' && (
+              <div className="mt-4 flex flex-col items-center justify-center bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <img
+                  src="/price-list.jpeg"
+                  alt="Official Trust Patho Lab Price List Flyer"
+                  className="max-h-[72vh] w-auto object-contain rounded-xl shadow-2xl border border-amber-400/30"
+                />
+                <a
+                  href="/price-list.jpeg"
+                  download="trust-patho-lab-price-list.jpeg"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-400 text-purple-950 text-xs font-black hover:bg-amber-300 transition shadow-md"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Download Full-Resolution Flyer Image
+                </a>
+              </div>
+            )}
+
+            {/* View Mode 2: Printable Structured Document Matching Flyer */}
+            {flyerModalTab === 'structured' && (
+              <div className="mt-4 printable-report border border-slate-300 p-6 rounded-2xl bg-white">
+                {/* Header Box */}
+                <div className="bg-obsidian-950 text-white p-6 rounded-xl border-2 border-gold-500/60 mb-6">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-gold-500/30 pb-4">
                   <div className="text-xs text-gold-300 font-semibold">
-                    Reg. No. 2291212131723
+                    Reg. No. 229112131723
                   </div>
                   <div className="text-xs text-gold-300 font-semibold flex items-center gap-2">
                     <span>WhatsApp / Contact: 6206175583, 6299476228, 9142661354</span>
@@ -528,9 +581,10 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
-      )}
-    </section>
+      </div>
+    )}
+  </section>
   );
 };

@@ -88,7 +88,7 @@ export function initDatabase() {
   const labInfoSeed = [
     ['name', 'Trust Patho Lab'],
     ['subtitle', 'Pathology Laboratory'],
-    ['registration_no', '2291212131723'],
+    ['registration_no', '229112131723'],
     ['address', 'Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002, Bihar'],
     ['phones', '6206175583, 6299476228, 9142661354'],
     ['whatsapp', '6206175583'],

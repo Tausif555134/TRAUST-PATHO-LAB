@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Govt. Registration No. <strong>2291212131723</strong>. Providing premier, barcoded diagnostic testing and 24/7 doorstep sample collection across Gaya and Bihar.
+              Govt. Registration No. <strong>229112131723</strong>. Providing premier, barcoded diagnostic testing and 24/7 doorstep sample collection across Gaya and Bihar.
             </p>
             <div className="pt-2 flex flex-col gap-2 text-xs text-slate-400">
               <span className="flex items-center gap-2">
@@ -180,7 +180,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Credits & Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div>
-            &copy; {new Date().getFullYear()} Trust Patho Lab (Reg. No. 2291212131723). All rights reserved. Gaya, Bihar.
+            &copy; {new Date().getFullYear()} Trust Patho Lab (Reg. No. 229112131723). All rights reserved. Gaya, Bihar.
           </div>
           <div className="flex gap-6">
             <span className="hover:text-slate-400 cursor-pointer">Patient Privacy Policy</span>

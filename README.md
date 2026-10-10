@@ -1,6 +1,6 @@
 # TRUST PATHO LAB — Pathology Laboratory & Doorstep Diagnostics
 
-Official website and digital booking portal for **Trust Patho Lab** (Govt. Reg. No. 2291212131723), established in 2024. Providing 24/7 doorstep pathology sample collection, multi-brand pathological diagnostics, and clinical health checkups across Gaya and Bihar.
+Official website and digital booking portal for **Trust Patho Lab** (Govt. Reg. No. 229112131723), established in 2024. Providing 24/7 doorstep pathology sample collection, multi-brand pathological diagnostics, and clinical health checkups across Gaya and Bihar.
 
 ---
 
@@ -8,7 +8,7 @@ Official website and digital booking portal for **Trust Patho Lab** (Govt. Reg. 
 
 - **Laboratory Name**: Trust Patho Lab
 - **Subtitle**: Pathology Laboratory
-- **Government Registration No.**: `2291212131723`
+- **Government Registration No.**: `229112131723`
 - **Established**: 2024
 - **Headquarters Address**: Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002, Bihar
 - **Contact & WhatsApp**:

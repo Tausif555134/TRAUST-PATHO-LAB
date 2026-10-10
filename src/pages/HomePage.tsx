@@ -127,7 +127,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               {/* Accreditations Badge */}
               <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-brand-900/80 border border-gold-500/40 text-gold-300 text-xs font-semibold backdrop-blur-sm">
                 <span className="w-2 h-2 rounded-full bg-gold-400 animate-ping"></span>
-                <span>Govt. Reg. No. 2291212131723</span>
+                <span>Govt. Reg. No. 229112131723</span>
                 <span className="text-gold-500">•</span>
                 <span>Estd. 2024 • Gaya, Bihar</span>
               </div>
@@ -226,7 +226,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                   <div className="mt-5 p-3.5 bg-brand-950/70 rounded-2xl border border-gold-500/30 text-left space-y-2 text-xs">
                     <div className="flex items-center justify-between text-slate-300">
                       <span>Government Registration:</span>
-                      <strong className="text-gold-400">2291212131723</strong>
+                      <strong className="text-gold-400">229112131723</strong>
                     </div>
                     <div className="flex items-center justify-between text-slate-300">
                       <span>Operating Mode:</span>
@@ -331,7 +331,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                   Reliable Clinical Diagnostics Serving Gaya Since 2024
                 </h2>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  Established in 2024 and officially registered under <strong>Reg. No. 2291212131723</strong>, Trust Patho Lab operates with an unwavering dedication to clinical precision, rapid sample turnaround, and patient convenience. Located at Gaya Patna Road, Iqbal Nagar (near Karbala), we offer 24/7 pathology services with trained phlebotomists who travel to your home with complete sterile kit bags.
+                  Established in 2024 and officially registered under <strong>Reg. No. 229112131723</strong>, Trust Patho Lab operates with an unwavering dedication to clinical precision, rapid sample turnaround, and patient convenience. Located at Gaya Patna Road, Iqbal Nagar (near Karbala), we offer 24/7 pathology services with trained phlebotomists who travel to your home with complete sterile kit bags.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
@@ -376,7 +376,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                   />
                   <div>
                     <h4 className="font-extrabold text-white text-base">Gaya Laboratory Desk</h4>
-                    <span className="text-xs text-gold-400">Reg. No. 2291212131723</span>
+                    <span className="text-xs text-gold-400">Reg. No. 229112131723</span>
                   </div>
                 </div>
 
