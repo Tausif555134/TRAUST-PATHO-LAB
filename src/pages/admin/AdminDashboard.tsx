@@ -275,57 +275,57 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* METRICS ROW */}
-        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 my-6">
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 my-6">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Total Bookings
             </span>
-            <span className="text-2xl font-black text-slate-900 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-slate-900 mt-1 block">
               {totalBookings}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Today's Visits
             </span>
-            <span className="text-2xl font-black text-brand-700 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-brand-700 mt-1 block">
               {todaysBookings}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Needs Dispatch
             </span>
-            <span className="text-2xl font-black text-amber-600 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-amber-600 mt-1 block">
               {pendingBookings}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Completed
             </span>
-            <span className="text-2xl font-black text-emerald-600 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-emerald-600 mt-1 block">
               {completedBookings}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Active Clinicians
             </span>
-            <span className="text-2xl font-black text-purple-700 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-purple-700 mt-1 block">
               {professionals.filter((p) => p.isAvailable).length}
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs col-span-2 sm:col-span-1">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Total Revenue
             </span>
-            <span className="text-2xl font-black text-slate-900 mt-1 block">
+            <span className="text-xl sm:text-2xl font-black text-slate-900 mt-1 block">
               ₹{totalRevenue.toLocaleString()}
             </span>
           </div>

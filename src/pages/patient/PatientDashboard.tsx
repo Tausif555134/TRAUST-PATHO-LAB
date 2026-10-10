@@ -127,21 +127,21 @@ export const PatientDashboard: React.FC = () => {
     <div className="min-h-screen bg-slate-50 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Patient Dashboard Header */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-brand-100 text-brand-700 font-extrabold text-2xl flex items-center justify-center border border-brand-200">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-xs mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-brand-100 text-brand-700 font-extrabold text-xl sm:text-2xl flex items-center justify-center border border-brand-200 shrink-0">
               {currentUser?.fullName?.[0] || 'R'}
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-slate-900">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">
                   {currentUser?.fullName || 'Rajesh Verma'}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] sm:text-[11px] font-bold">
                   Verified Patient
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5 truncate">
                 Primary Contact: {currentUser?.phone || '+91 98765 43210'} · {currentUser?.email || 'patient@example.com'}
               </p>
             </div>
@@ -150,7 +150,7 @@ export const PatientDashboard: React.FC = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/book"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md shadow-brand-500/20 transition"
+              className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-5 py-3 sm:py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md shadow-brand-500/20 transition min-h-[44px]"
             >
               <Calendar className="w-4 h-4" />
               Book New Home Visit
@@ -203,12 +203,12 @@ export const PatientDashboard: React.FC = () => {
                 return (
                   <div
                     key={b.id}
-                    className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6"
+                    className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-sm space-y-6"
                   >
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
                       <div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-lg border border-brand-200">
                             {b.bookingCode}
                           </span>
@@ -216,18 +216,18 @@ export const PatientDashboard: React.FC = () => {
                             Booked on {new Date(b.createdAt).toLocaleDateString()}
                           </span>
                         </div>
-                        <h3 className="text-xl font-extrabold text-slate-900 mt-2">
+                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-2">
                           {b.serviceName}
                         </h3>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
                           Status: {b.status.replace('_', ' ')}
                         </span>
                         <button
                           onClick={() => setCancelModalBooking(b)}
-                          className="text-xs font-semibold text-rose-600 hover:text-rose-700 px-3 py-1 rounded-lg hover:bg-rose-50 border border-rose-200 transition"
+                          className="text-xs font-semibold text-rose-600 hover:text-rose-700 px-3 py-1.5 rounded-lg hover:bg-rose-50 border border-rose-200 transition min-h-[36px]"
                         >
                           Cancel Visit
                         </button>
@@ -235,19 +235,19 @@ export const PatientDashboard: React.FC = () => {
                     </div>
 
                     {/* LIVE 6-STAGE TRACKER */}
-                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-1.5">
+                    <div className="p-3.5 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 sm:mb-4 flex items-center gap-1.5">
                         <Truck className="w-4 h-4 text-brand-600" />
                         Live Home Visit Progress
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 sm:gap-3">
                         {STATUS_STAGES.map((stage, idx) => {
                           const isDone = idx < currentStageIdx;
                           const isCurrent = idx === currentStageIdx;
                           return (
                             <div
                               key={stage.key}
-                              className={`p-3 rounded-xl border text-center transition ${
+                              className={`p-2.5 sm:p-3 rounded-xl border text-center transition ${
                                 isCurrent
                                   ? 'bg-brand-600 border-brand-600 text-white shadow-sm ring-2 ring-brand-300'
                                   : isDone
@@ -255,7 +255,7 @@ export const PatientDashboard: React.FC = () => {
                                   : 'bg-white border-slate-200 text-slate-400 opacity-60'
                               }`}
                             >
-                              <div className="text-[11px] font-bold">
+                              <div className="text-[10px] sm:text-[11px] font-bold">
                                 {isDone ? '✓ ' : ''}
                                 {stage.label}
                               </div>

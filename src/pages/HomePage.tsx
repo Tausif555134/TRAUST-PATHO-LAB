@@ -161,15 +161,15 @@ function HeroBookingCard() {
   };
 
   return (
-    <div className="relative bg-obsidian-950 rounded-2xl border border-gold-500/30 shadow-2xl shadow-black/50 p-6 space-y-4">
+    <div className="relative bg-obsidian-950 rounded-2xl border border-gold-500/30 shadow-2xl shadow-black/50 p-4 sm:p-6 space-y-4">
       {/* Card Header */}
       <div className="flex items-center gap-2.5 pb-3 border-b border-brand-900/60">
-        <div className="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center shrink-0">
           <Home className="w-4 h-4 text-gold-400" />
         </div>
         <div>
           <h3 className="font-black text-white text-sm">Book Home Sample Collection</h3>
-          <p className="text-[10px] text-slate-400">Trained staff visits your doorstep</p>
+          <p className="text-[10px] text-slate-400">Trained staff visits your doorstep in Gaya</p>
         </div>
       </div>
 
@@ -195,23 +195,24 @@ function HeroBookingCard() {
             value={form.fullName}
             onChange={handleChange}
             placeholder="Your full name"
-            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 focus:bg-brand-950 transition"
+            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 focus:bg-brand-950 transition"
             required
           />
         </div>
 
         <div>
           <label className="block text-[11px] font-semibold text-slate-400 mb-1">Mobile Number *</label>
-          <div className="flex">
-            <span className="flex items-center px-3 bg-brand-950/80 border border-r-0 border-brand-800/60 rounded-l-xl text-slate-400 text-sm font-semibold">+91</span>
+          <div className="flex rounded-xl overflow-hidden">
+            <span className="flex items-center px-2.5 sm:px-3 bg-brand-950/80 border border-r-0 border-brand-800/60 text-slate-400 text-xs sm:text-sm font-semibold shrink-0">+91</span>
             <input
               name="mobile"
+              type="tel"
               value={form.mobile}
               onChange={handleChange}
               placeholder="10-digit mobile"
               maxLength={10}
               pattern="[6-9][0-9]{9}"
-              className="flex-1 bg-brand-950/60 border border-brand-800/60 rounded-r-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 transition"
+              className="flex-1 min-w-0 bg-brand-950/60 border border-brand-800/60 rounded-r-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 transition"
               required
             />
           </div>
@@ -223,11 +224,11 @@ function HeroBookingCard() {
             name="testId"
             value={form.testId}
             onChange={handleChange}
-            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500/60 transition appearance-none"
+            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-gold-500/60 transition appearance-none"
           >
             <option value="">— Select test or leave blank —</option>
             {initialLabTests.map((t) => (
-              <option key={t.id} value={t.id}>
+              <option key={t.id} value={t.id} className="bg-obsidian-950 text-white">
                 {t.name} — ₹{t.price}
               </option>
             ))}
@@ -242,7 +243,7 @@ function HeroBookingCard() {
             onChange={handleChange}
             placeholder="House No., Area, Gaya..."
             rows={2}
-            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 transition resize-none"
+            className="w-full bg-brand-950/60 border border-brand-800/60 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-500/60 transition resize-none"
             required
           />
         </div>
@@ -250,7 +251,7 @@ function HeroBookingCard() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 disabled:opacity-60 text-obsidian-950 font-black text-sm py-3 rounded-xl shadow-lg shadow-gold-500/20 transition active:scale-[0.98] flex items-center justify-center gap-2"
+          className="w-full min-h-[44px] bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 disabled:opacity-60 text-obsidian-950 font-black text-xs sm:text-sm py-3 rounded-xl shadow-lg shadow-gold-500/20 transition active:scale-[0.98] flex items-center justify-center gap-2"
         >
           {loading ? (
             <><Loader2 className="w-4 h-4 animate-spin" /> Processing…</>
@@ -275,7 +276,7 @@ function HeroBookingCard() {
         href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20blood%20test."
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 w-full bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 border border-emerald-600/30 font-bold text-xs py-2.5 rounded-xl transition"
+        className="flex items-center justify-center gap-2 w-full min-h-[44px] bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 border border-emerald-600/30 font-bold text-xs py-2.5 rounded-xl transition"
       >
         <Share2 className="w-3.5 h-3.5" /> Book via WhatsApp Instead
       </a>
@@ -305,37 +306,37 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-gold-500/5 blur-3xl rounded-full pointer-events-none" />
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-brand-700/10 blur-3xl rounded-full pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-16 lg:pt-16 lg:pb-20 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
 
             {/* ─── Left: Hero Content ─────────────────────────────────── */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
 
               {/* Govt. Reg Badge */}
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-brand-900/70 border border-gold-500/40 text-gold-300 text-xs font-bold backdrop-blur-sm">
+              <div className="inline-flex flex-wrap items-center gap-1.5 sm:gap-2.5 px-3 py-1.5 rounded-full bg-brand-900/70 border border-gold-500/40 text-gold-300 text-[11px] sm:text-xs font-bold backdrop-blur-sm">
                 <span className="w-2 h-2 rounded-full bg-gold-400 animate-ping shrink-0" />
                 <span>Govt. Reg. No. 229112131723</span>
-                <span className="text-gold-600 mx-1">•</span>
+                <span className="text-gold-600 mx-0.5 sm:mx-1">•</span>
                 <span>Estd. 2024</span>
-                <span className="text-gold-600 mx-1">•</span>
+                <span className="text-gold-600 mx-0.5 sm:mx-1">•</span>
                 <span>Gaya, Bihar</span>
               </div>
 
               {/* Main Headline */}
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black tracking-tight leading-[1.1] text-white">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black tracking-tight leading-[1.15] text-white">
                   Trusted Pathology{' '}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-amber-200">
                     at Your Doorstep
                   </span>
                 </h1>
-                <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
+                <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-xl">
                   Hospital-grade diagnostic accuracy with sterile home sample collection across Gaya and surrounding districts. Get certified digital reports on WhatsApp.
                 </p>
               </div>
 
               {/* Service Badge Pills */}
-              <div className="flex flex-wrap gap-2.5 text-xs">
+              <div className="flex flex-wrap gap-2 text-[11px] sm:text-xs">
                 {[
                   { icon: Clock, label: '24/7 Service', color: 'text-gold-400' },
                   { icon: Home, label: 'Home Sample Collection', color: 'text-rose-400' },
@@ -344,7 +345,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                 ].map(({ icon: Icon, label, color }) => (
                   <span
                     key={label}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm"
+                    className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-200 backdrop-blur-sm"
                   >
                     <Icon className={`w-3.5 h-3.5 ${color}`} />
                     {label}
@@ -353,17 +354,17 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+              <div className="flex flex-col sm:flex-row gap-3 pt-1 w-full sm:w-auto">
                 <Link
                   to="/book"
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-sm px-7 py-4 rounded-2xl shadow-xl shadow-gold-500/20 transition active:scale-95"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-xs sm:text-sm px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl shadow-xl shadow-gold-500/20 transition active:scale-95 text-center min-h-[44px]"
                 >
                   <Home className="w-4 h-4" />
                   Book Home Sample Collection
                 </Link>
                 <a
                   href="#test-price-list"
-                  className="inline-flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-gold-300 font-bold text-sm px-7 py-4 rounded-2xl border border-gold-500/40 transition active:scale-95"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-transparent hover:bg-white/5 text-gold-300 font-bold text-xs sm:text-sm px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl border border-gold-500/40 transition active:scale-95 text-center min-h-[44px]"
                 >
                   <FlaskConical className="w-4 h-4" />
                   View Test Price List
@@ -371,32 +372,32 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               </div>
 
               {/* Address strip */}
-              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs text-slate-400">
+              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 text-xs text-slate-400 break-words">
                 <div className="flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0" />
                   <span>Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-gold-300 font-semibold">
-                  <PhoneCall className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-1.5 text-gold-300 font-semibold break-all sm:break-normal">
+                  <PhoneCall className="w-3.5 h-3.5 shrink-0" />
                   <span>6206175583 / 6299476228 / 9142661354</span>
                 </div>
               </div>
 
               {/* Logo and lab identity */}
-              <div className="flex items-center gap-4 pt-2">
+              <div className="flex items-center gap-3.5 sm:gap-4 pt-1 sm:pt-2">
                 <img
                   src="/trust-patho-lab-logo.png"
                   alt="Trust Patho Lab Official Logo"
-                  className="w-16 h-16 rounded-full border-2 border-gold-500/60 object-cover shadow-xl shadow-black/40"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-gold-500/60 object-cover shadow-xl shadow-black/40 shrink-0"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
                   }}
                 />
-                <div>
-                  <div className="text-lg font-black text-white tracking-wide">
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-white tracking-wide truncate">
                     TRUST <span className="text-gold-400">PATHO LAB</span>
                   </div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">
                     Pathology Laboratory • Gaya • Since 2024
                   </div>
                 </div>
@@ -404,7 +405,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
             </div>
 
             {/* ─── Right: Booking Card ─────────────────────────────────── */}
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-5 w-full">
               <HeroBookingCard />
             </div>
           </div>
@@ -415,18 +416,23 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
           STATISTICS STRIP
       ══════════════════════════════════════════════════════════════════ */}
       <section className="bg-obsidian-950 border-b border-brand-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-brand-900/40">
-            {STATS.map((stat) => {
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
+            {STATS.map((stat, idx) => {
               const Icon = stat.icon;
               return (
-                <div key={stat.label} className="flex items-center gap-3 py-2 sm:py-0 sm:px-4 first:sm:pl-0 last:sm:pr-0">
-                  <div className="w-9 h-9 rounded-xl bg-brand-900/60 flex items-center justify-center shrink-0">
-                    <Icon className={`w-4.5 h-4.5 ${stat.color}`} />
+                <div
+                  key={stat.label}
+                  className={`flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl bg-brand-950/40 border border-brand-900/40 ${
+                    idx === STATS.length - 1 ? 'col-span-2 sm:col-span-1' : ''
+                  }`}
+                >
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-900/60 flex items-center justify-center shrink-0">
+                    <Icon className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${stat.color}`} />
                   </div>
-                  <div>
-                    <div className={`text-xl font-black ${stat.color}`}>{stat.value}</div>
-                    <div className="text-[11px] text-slate-400 leading-tight">{stat.label}</div>
+                  <div className="min-w-0">
+                    <div className={`text-lg sm:text-xl font-black ${stat.color}`}>{stat.value}</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-400 leading-tight truncate">{stat.label}</div>
                   </div>
                 </div>
               );
@@ -450,20 +456,20 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
             {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
               return (
                 <a
                   key={cat.name}
                   href="#test-price-list"
-                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl border ${cat.bg} hover:scale-105 transition duration-200 cursor-pointer group`}
+                  className={`flex flex-col items-center gap-2 p-3 sm:p-4 rounded-xl sm:rounded-2xl border ${cat.bg} hover:scale-105 transition duration-200 cursor-pointer group`}
                 >
-                  <div className={`w-10 h-10 rounded-xl ${cat.bg} border flex items-center justify-center`}>
-                    <Icon className={`w-5 h-5 ${cat.color}`} />
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${cat.bg} border flex items-center justify-center shrink-0`}>
+                    <Icon className={`w-4.5 h-4.5 sm:w-5 sm:h-5 ${cat.color}`} />
                   </div>
-                  <div className="text-center">
-                    <div className="text-xs font-bold text-slate-800 group-hover:text-obsidian-950">{cat.name}</div>
+                  <div className="text-center min-w-0 w-full">
+                    <div className="text-xs font-bold text-slate-800 group-hover:text-obsidian-950 truncate">{cat.name}</div>
                     <div className="text-[10px] text-slate-500 mt-0.5">{cat.count} Tests</div>
                   </div>
                 </a>
@@ -485,9 +491,9 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
       {/* ══════════════════════════════════════════════════════════════════
           POPULAR TESTS SECTION
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-14 bg-slate-50 border-b border-slate-200">
+      <section className="py-12 sm:py-14 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-brand-700">Most Requested</span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-obsidian-950 mt-0.5">Popular Tests</h2>
@@ -500,23 +506,23 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {POPULAR_TESTS.map((test) => {
               const Icon = test.icon;
               return (
                 <Link
                   key={test.id}
                   to={`/book?testId=${test.id}&testName=${encodeURIComponent(test.name)}&price=${test.price}`}
-                  className="bg-white border border-slate-200 rounded-2xl p-4 hover:border-gold-500/50 hover:shadow-md hover:-translate-y-0.5 transition duration-200 group flex flex-col gap-3"
+                  className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 hover:border-gold-500/50 hover:shadow-md hover:-translate-y-0.5 transition duration-200 group flex flex-col gap-2.5 sm:gap-3"
                 >
-                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${test.bg}`}>
-                    <Icon className={`w-5 h-5 ${test.color}`} />
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center shrink-0 ${test.bg}`}>
+                    <Icon className={`w-4.5 h-4.5 sm:w-5 sm:h-5 ${test.color}`} />
                   </div>
                   <div>
                     <div className="font-black text-slate-900 text-sm group-hover:text-brand-800 transition">{test.name}</div>
                     <div className="text-[10px] text-slate-500 mt-0.5 leading-tight line-clamp-2">{test.fullName}</div>
                   </div>
-                  <div className="flex items-center justify-between mt-auto">
+                  <div className="flex flex-wrap items-center justify-between gap-1 mt-auto pt-2 border-t border-slate-100">
                     <span className="text-base font-black text-gold-600">₹{test.price}</span>
                     <span className="text-[10px] bg-brand-50 text-brand-700 border border-brand-200 px-1.5 py-0.5 rounded-full font-semibold">
                       {test.category}
@@ -537,10 +543,10 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
       {/* ══════════════════════════════════════════════════════════════════
           ABOUT THE LAB
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="lab-details" className="py-16 bg-white border-b border-slate-200">
+      <section id="lab-details" className="py-12 sm:py-16 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="bg-slate-50 rounded-3xl border border-slate-200 p-6 sm:p-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-200 p-4 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-800 bg-brand-50 border border-brand-200 px-3 py-1 rounded-full inline-block">
                   About Trust Patho Lab
@@ -551,14 +557,14 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                 <p className="text-sm text-slate-600 leading-relaxed">
                   Established in 2024 and officially registered under <strong>Reg. No. 229112131723</strong>, Trust Patho Lab operates with an unwavering dedication to clinical precision, rapid sample turnaround, and patient convenience. Located at Gaya Patna Road, Iqbal Nagar (near Karbala), we offer 24/7 pathology services with trained phlebotomists who travel to your home with complete sterile kit bags.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2 text-xs">
                   {[
                     { title: 'Vacuum Tube Collection', desc: 'Color-coded vacutainers prevent hemolysis and contamination.' },
                     { title: 'Cold-Chain Transit', desc: 'Specimens kept at monitored temperatures until machine aspiration.' },
                     { title: 'Digital & Printed Reports', desc: 'Verified reports delivered online with print and PDF export.' },
                     { title: 'Transparent Government Pricing', desc: 'Fixed rate-card matching the official laboratory price schedule.' },
                   ].map(({ title, desc }) => (
-                    <div key={title} className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-2.5">
+                    <div key={title} className="p-3 sm:p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-2.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                       <div>
                         <strong className="text-slate-900 block">{title}</strong>
@@ -570,12 +576,12 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               </div>
 
               {/* Contact Card */}
-              <div className="lg:col-span-5 bg-obsidian-950 text-white rounded-2xl p-6 sm:p-7 border-2 border-gold-500/40 space-y-4">
+              <div className="lg:col-span-5 bg-obsidian-950 text-white rounded-2xl p-4 sm:p-7 border-2 border-gold-500/40 space-y-4">
                 <div className="flex items-center gap-3">
                   <img
                     src="/trust-patho-lab-logo.png"
                     alt="Trust Patho Lab Logo"
-                    className="w-10 h-10 rounded-full border border-gold-400 object-cover"
+                    className="w-10 h-10 rounded-full border border-gold-400 object-cover shrink-0"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
                     }}
@@ -592,7 +598,7 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <PhoneCall className="w-4 h-4 text-gold-400 shrink-0" />
-                    <span>6206175583, 6299476228, 9142661354</span>
+                    <span className="break-all sm:break-normal">6206175583, 6299476228, 9142661354</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Clock className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -604,13 +610,13 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
                     href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20order%20tests."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl transition flex items-center justify-center gap-2"
+                    className="w-full min-h-[44px] bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl transition flex items-center justify-center gap-2"
                   >
                     <Share2 className="w-3.5 h-3.5" /> WhatsApp Booking
                   </a>
                   <a
                     href="tel:6206175583"
-                    className="w-full bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-3 rounded-xl border border-gold-500/40 transition flex items-center justify-center gap-2"
+                    className="w-full min-h-[44px] bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-3 rounded-xl border border-gold-500/40 transition flex items-center justify-center gap-2"
                   >
                     <PhoneCall className="w-3.5 h-3.5 text-gold-400" /> Direct Call: 6206175583
                   </a>
@@ -685,30 +691,30 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
       {/* ══════════════════════════════════════════════════════════════════
           CALL TO ACTION BANNER
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-obsidian-950 text-white border-t border-brand-900/60">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 border border-gold-500/40 text-gold-300 text-xs font-semibold">
-            <Sparkles className="w-4 h-4 text-gold-400" />
-            Same-Day Doorstep Slots Available in Gaya
+      <section className="py-12 sm:py-16 bg-obsidian-950 text-white border-t border-brand-900/60">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-5 sm:space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 border border-gold-500/40 text-gold-300 text-[11px] sm:text-xs font-semibold">
+            <Sparkles className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+            <span>Same-Day Doorstep Slots Available in Gaya</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white leading-tight">
             Need doorstep pathology testing in Gaya today?
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
             Experience clinical laboratory accuracy in the privacy, hygiene, and comfort of your home.
           </p>
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <Link
               to="/book"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-sm shadow-xl shadow-gold-500/20 transition active:scale-95"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-xs sm:text-sm shadow-xl shadow-gold-500/20 transition active:scale-95 text-center min-h-[44px] flex items-center justify-center"
             >
               Book Doorstep Checkup Now
             </Link>
             <a
               href="tel:6206175583"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-sm border border-gold-500/40 transition flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs sm:text-sm border border-gold-500/40 transition flex items-center justify-center gap-2 min-h-[44px]"
             >
-              <PhoneCall className="w-4 h-4 text-gold-400" /> Call 6206175583
+              <PhoneCall className="w-4 h-4 text-gold-400 shrink-0" /> Call 6206175583
             </a>
           </div>
 

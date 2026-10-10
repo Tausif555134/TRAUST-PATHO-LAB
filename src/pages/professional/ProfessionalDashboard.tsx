@@ -166,27 +166,27 @@ export const ProfessionalDashboard: React.FC = () => {
     <div className="min-h-screen bg-slate-50 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Clinician Profile Banner */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-xs mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4">
             <img
               src={
                 currentPro?.profilePhoto ||
                 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80'
               }
               alt={currentPro?.name}
-              className="w-16 h-16 rounded-2xl object-cover ring-2 ring-brand-500/30"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover ring-2 ring-brand-500/30 shrink-0"
             />
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-slate-900">{currentPro?.name}</h1>
-                <span className="px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-800 text-[11px] font-bold">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">{currentPro?.name}</h1>
+                <span className="px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-800 text-[10px] sm:text-[11px] font-bold">
                   {currentPro?.role}
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
                   Verified License
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 mt-1 truncate">
                 {currentPro?.qualification} · {currentPro?.experienceYears} yrs experience · Zone:{' '}
                 {currentPro?.serviceArea}
               </p>
@@ -194,19 +194,19 @@ export const ProfessionalDashboard: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-6 text-xs">
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="text-slate-400 font-semibold block uppercase text-[10px]">
                 Rating
               </span>
-              <span className="text-xl font-black text-slate-900">
+              <span className="text-lg sm:text-xl font-black text-slate-900">
                 ★ {currentPro?.rating || 4.9}
               </span>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="text-slate-400 font-semibold block uppercase text-[10px]">
                 Visits Done
               </span>
-              <span className="text-xl font-black text-slate-900">
+              <span className="text-lg sm:text-xl font-black text-slate-900">
                 {currentPro?.totalVisits || 340}
               </span>
             </div>
@@ -215,22 +215,22 @@ export const ProfessionalDashboard: React.FC = () => {
 
         {/* Assigned Home Visits */}
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
                 Assigned Doorstep Patient Visits
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 Review assigned routes, advance visit states, and submit bedside reports.
               </p>
             </div>
-            <span className="text-xs font-semibold px-3 py-1 rounded-xl bg-slate-200 text-slate-700">
+            <span className="text-xs font-semibold px-3 py-1 rounded-xl bg-slate-200 text-slate-700 w-fit">
               {bookings.length} Total Assigned
             </span>
           </div>
 
           {bookings.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-3xl border border-slate-200">
+            <div className="p-8 sm:p-12 text-center bg-white rounded-2xl sm:rounded-3xl border border-slate-200">
               <Stethoscope className="w-12 h-12 text-slate-300 mx-auto mb-2" />
               <h3 className="font-bold text-slate-800">No home visits currently assigned</h3>
               <p className="text-xs text-slate-400 mt-1">
@@ -242,7 +242,7 @@ export const ProfessionalDashboard: React.FC = () => {
               {bookings.map((b) => (
                 <div
                   key={b.id}
-                  className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6"
+                  className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6"
                 >
                   <div className="space-y-3 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -489,13 +489,13 @@ export const ProfessionalDashboard: React.FC = () => {
                     </button>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {prescriptions.map((rx) => (
                       <div
                         key={rx.id}
-                        className="grid grid-cols-12 gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 items-center"
+                        className="flex flex-col sm:grid sm:grid-cols-12 gap-2 p-3 sm:p-2.5 rounded-xl bg-slate-50 border border-slate-200 items-stretch sm:items-center relative"
                       >
-                        <div className="col-span-4">
+                        <div className="sm:col-span-4">
                           <input
                             type="text"
                             placeholder="Medicine Name"
@@ -503,49 +503,53 @@ export const ProfessionalDashboard: React.FC = () => {
                             onChange={(e) =>
                               handlePrescriptionChange(rx.id, 'medicineName', e.target.value)
                             }
-                            className="w-full p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
+                            className="w-full p-2 sm:p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
                           />
                         </div>
-                        <div className="col-span-2">
-                          <input
-                            type="text"
-                            placeholder="Dosage (500mg)"
-                            value={rx.dosage}
-                            onChange={(e) =>
-                              handlePrescriptionChange(rx.id, 'dosage', e.target.value)
-                            }
-                            className="w-full p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
-                          />
+                        <div className="grid grid-cols-3 sm:contents gap-2">
+                          <div className="sm:col-span-2">
+                            <input
+                              type="text"
+                              placeholder="Dosage (500mg)"
+                              value={rx.dosage}
+                              onChange={(e) =>
+                                handlePrescriptionChange(rx.id, 'dosage', e.target.value)
+                              }
+                              className="w-full p-2 sm:p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
+                            />
+                          </div>
+                          <div className="sm:col-span-3">
+                            <input
+                              type="text"
+                              placeholder="Frequency (Twice daily)"
+                              value={rx.frequency}
+                              onChange={(e) =>
+                                handlePrescriptionChange(rx.id, 'frequency', e.target.value)
+                              }
+                              className="w-full p-2 sm:p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
+                            />
+                          </div>
+                          <div className="sm:col-span-2">
+                            <input
+                              type="text"
+                              placeholder="Duration (5 days)"
+                              value={rx.duration}
+                              onChange={(e) =>
+                                handlePrescriptionChange(rx.id, 'duration', e.target.value)
+                              }
+                              className="w-full p-2 sm:p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
+                            />
+                          </div>
                         </div>
-                        <div className="col-span-3">
-                          <input
-                            type="text"
-                            placeholder="Frequency (Twice daily)"
-                            value={rx.frequency}
-                            onChange={(e) =>
-                              handlePrescriptionChange(rx.id, 'frequency', e.target.value)
-                            }
-                            className="w-full p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
-                          />
-                        </div>
-                        <div className="col-span-2">
-                          <input
-                            type="text"
-                            placeholder="Duration (5 days)"
-                            value={rx.duration}
-                            onChange={(e) =>
-                              handlePrescriptionChange(rx.id, 'duration', e.target.value)
-                            }
-                            className="w-full p-1.5 rounded-lg border border-slate-300 bg-white text-xs"
-                          />
-                        </div>
-                        <div className="col-span-1 text-right">
+                        <div className="sm:col-span-1 flex justify-end">
                           <button
                             type="button"
                             onClick={() => handleRemovePrescriptionRow(rx.id)}
-                            className="p-1 text-slate-400 hover:text-rose-600"
+                            className="p-1 text-slate-400 hover:text-rose-600 flex items-center gap-1 text-xs"
+                            title="Remove medicine"
                           >
                             <Trash2 className="w-4 h-4" />
+                            <span className="sm:hidden text-rose-600 font-semibold text-[11px]">Remove</span>
                           </button>
                         </div>
                       </div>

@@ -60,10 +60,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-100">
         {/* Header Banner */}
-        <div className="bg-gradient-to-r from-brand-600 to-emerald-700 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-brand-600 to-emerald-700 p-4 sm:p-6 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-1 rounded-full bg-white/10 hover:bg-white/20 transition text-white"

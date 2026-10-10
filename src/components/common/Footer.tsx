@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
           </div>
           <a
             href="tel:108"
-            className="shrink-0 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5"
+            className="w-full sm:w-auto justify-center shrink-0 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-4 py-3 rounded-xl transition shadow flex items-center gap-1.5 min-h-[44px]"
           >
             <PhoneCall className="w-3.5 h-3.5" />
             Call Emergency (108)
@@ -181,11 +181,11 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Credits & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4 text-center sm:text-left">
           <div>
             &copy; {new Date().getFullYear()} Trust Patho Lab (Reg. No. 229112131723). All rights reserved. Gaya, Bihar.
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center sm:justify-end gap-x-6 gap-y-2">
             <span className="hover:text-slate-400 cursor-pointer">Patient Privacy Policy</span>
             <span className="hover:text-slate-400 cursor-pointer">Clinical Standards</span>
             <span className="hover:text-slate-400 cursor-pointer">Cancellation & Refunds</span>

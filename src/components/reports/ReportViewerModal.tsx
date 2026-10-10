@@ -29,21 +29,22 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
-      <div className="relative w-full max-w-3xl max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in overflow-y-auto">
+      <div className="relative w-full max-w-3xl max-h-[92vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
         {/* Modal Controls (Hidden in Print) */}
-        <div className="no-print p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
-          <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-bold text-sm">Official Clinical Summary & Prescription</h3>
+        <div className="no-print p-3 sm:p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <FileText className="w-5 h-5 text-emerald-400 shrink-0" />
+            <h3 className="font-bold text-xs sm:text-sm truncate">Official Clinical Summary & Prescription</h3>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handlePrint}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition"
             >
               <Printer className="w-3.5 h-3.5" />
-              Print / Save PDF
+              <span className="hidden xs:inline">Print / Save PDF</span>
+              <span className="xs:hidden">Print</span>
             </button>
             <button
               onClick={onClose}
@@ -55,15 +56,15 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
         </div>
 
         {/* Printable Document Body */}
-        <div className="p-8 overflow-y-auto flex-1 printable-report bg-white text-slate-900 font-sans">
+        <div className="p-4 sm:p-8 overflow-y-auto flex-1 printable-report bg-white text-slate-900 font-sans">
           {/* Clinic Header */}
-          <div className="flex items-start justify-between border-b-2 border-brand-600 pb-6 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center">
-                <HeartPulse className="w-7 h-7" />
+          <div className="flex flex-col sm:flex-row items-start justify-between border-b-2 border-brand-600 pb-5 sm:pb-6 mb-5 sm:mb-6 gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center shrink-0">
+                <HeartPulse className="w-6 h-6 sm:w-7 sm:h-7" />
               </div>
               <div>
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   TRUST <span className="text-brand-600">PATHO LAB</span> Diagnostics
                 </h1>
                 <p className="text-xs text-slate-500 font-medium">
@@ -74,7 +75,7 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
                 </p>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold uppercase tracking-wider mb-1">
                 Verified Clinical Record
               </span>
@@ -213,8 +214,8 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
                 Rx - Medical Prescription
               </h4>
-              <div className="overflow-hidden rounded-2xl border border-slate-200">
-                <table className="w-full text-left text-xs">
+              <div className="overflow-x-auto rounded-2xl border border-slate-200">
+                <table className="w-full text-left text-xs min-w-[480px]">
                   <thead className="bg-slate-100 text-slate-700 font-semibold">
                     <tr>
                       <th className="p-3">Medicine / Molecule</th>
@@ -253,7 +254,7 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
           )}
 
           {/* Signature & Digital Verification Block */}
-          <div className="pt-6 border-t-2 border-slate-200 flex items-end justify-between">
+          <div className="pt-6 border-t-2 border-slate-200 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -263,7 +264,7 @@ export const ReportViewerModal: React.FC<ReportViewerModalProps> = ({
                 This document is electronically verified pursuant to Information Technology Act & National Medical Commission Tele-practice & Homecare guidelines.
               </p>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <div className="inline-block p-2 text-center border-b border-slate-400 font-serif italic text-base text-slate-800">
                 {report.professionalName}
               </div>
