@@ -19,8 +19,8 @@ function test(name, fn) {
   }
 }
 
-// 1. Verify Routes in App.tsx
-console.log('1. Checking Routes in App.tsx...');
+// 1. Verify Routes in App.tsx & Global Elements
+console.log('1. Checking Routes in App.tsx & Global Floating Widget...');
 const appContent = fs.readFileSync('src/App.tsx', 'utf8');
 
 test('App.tsx defines route "/" with HomePage', () => {
@@ -51,17 +51,55 @@ test('App.tsx guards "/admin" with ProtectedRoute', () => {
   assert(appContent.includes('path="/admin"') && appContent.includes('ProtectedRoute'));
 });
 
-// 2. Verify Minimal HomePage.tsx
-console.log('\n2. Checking Minimal HomePage.tsx...');
+test('App.tsx mounts FloatingContactButton', () => {
+  assert(appContent.includes('<FloatingContactButton />'));
+});
+
+// 2. Verify FloatingContactButton.tsx
+console.log('\n2. Checking Floating Contact Button & Panel...');
+const floatingContent = fs.readFileSync('src/components/common/FloatingContactButton.tsx', 'utf8');
+
+test('FloatingContactButton contains primary phone 6206175583 and WhatsApp', () => {
+  assert(floatingContent.includes('tel:6206175583'));
+  assert(floatingContent.includes('wa.me/916206175583'));
+});
+
+test('FloatingContactButton contains additional phone numbers', () => {
+  assert(floatingContent.includes('6299476228'));
+  assert(floatingContent.includes('9142661354'));
+});
+
+test('FloatingContactButton contains email and lab address in Gaya', () => {
+  assert(floatingContent.includes('care@trustpatholab.com'));
+  assert(floatingContent.includes('Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002'));
+});
+
+// 3. Verify Clean, Minimal HomePage.tsx
+console.log('\n3. Checking Minimal HomePage.tsx...');
 const homeContent = fs.readFileSync('src/pages/HomePage.tsx', 'utf8');
 
-test('HomePage does not contain the old 8 Diagnostic Facilities grid', () => {
+test('HomePage does NOT contain the hero booking form/card', () => {
+  assert(!homeContent.includes('Quick Home Sample Booking'));
+  assert(!homeContent.includes('HeroBookingCard'));
+});
+
+test('HomePage does NOT contain the large bottom CTA section', () => {
+  assert(!homeContent.includes('Need doorstep pathology testing in Gaya today?'));
+});
+
+test('HomePage does NOT contain the old 8 Diagnostic Facilities grid', () => {
   assert(!homeContent.includes('8 Diagnostic Facilities Available'));
 });
 
-test('HomePage includes Trust Patho Lab intro and Govt Reg No', () => {
+test('HomePage has clean minimal hero with Trust Patho Lab branding', () => {
   assert(homeContent.includes('Govt. Reg. No. 229112131723'));
-  assert(homeContent.includes('Trusted Pathology'));
+  assert(homeContent.includes('TRUST'));
+  assert(homeContent.includes('PATHO LAB'));
+});
+
+test('HomePage hero has primary "Book Home Collection" button', () => {
+  assert(homeContent.includes('Book Home Collection'));
+  assert(homeContent.includes('to="/book"'));
 });
 
 test('HomePage includes Popular Pathology Tests with direct booking CTAs', () => {
@@ -69,17 +107,25 @@ test('HomePage includes Popular Pathology Tests with direct booking CTAs', () =>
   assert(homeContent.includes('/book?testId='));
 });
 
-test('HomePage links directly to /tests and /book', () => {
-  assert(homeContent.includes('to="/tests"'));
-  assert(homeContent.includes('to="/book"'));
-});
-
 test('HomePage includes 4-step How It Works process', () => {
   assert(homeContent.includes('How Home Sample Collection Works'));
 });
 
-// 3. Verify TestsPage.tsx & 62 Tests
-console.log('\n3. Checking TestsPage.tsx & Lab Tests Integrity...');
+// 4. Verify Clean Footer.tsx
+console.log('\n4. Checking Cleaned Footer.tsx...');
+const footerContent = fs.readFileSync('src/components/common/Footer.tsx', 'utf8');
+
+test('Footer does NOT contain Clinical Notice & Emergency Advisory banner', () => {
+  assert(!footerContent.includes('Clinical Notice & Emergency Advisory'));
+  assert(!footerContent.includes('Call Emergency (108)'));
+});
+
+test('Footer contains official Medico-Legal Disclaimer', () => {
+  assert(footerContent.includes('NOT TO BE USED FOR MEDICO-LEGAL PURPOSE'));
+});
+
+// 5. Verify TestsPage.tsx & 62 Tests
+console.log('\n5. Checking TestsPage.tsx & Lab Tests Integrity...');
 const testsPageContent = fs.readFileSync('src/pages/TestsPage.tsx', 'utf8');
 const mockDataContent = fs.readFileSync('src/services/mockData.ts', 'utf8');
 
@@ -92,8 +138,8 @@ test('Catalog contains all 62 official pathology tests', () => {
   assert.strictEqual(matches.length, 62, `Expected 62 tests, found ${matches.length}`);
 });
 
-// 4. Verify ContactPage.tsx
-console.log('\n4. Checking ContactPage.tsx...');
+// 6. Verify ContactPage.tsx
+console.log('\n6. Checking ContactPage.tsx...');
 const contactContent = fs.readFileSync('src/pages/ContactPage.tsx', 'utf8');
 
 test('ContactPage contains official address in Gaya', () => {
@@ -116,13 +162,8 @@ test('ContactPage houses the 8 Diagnostic Facilities', () => {
   assert(contactContent.includes('Histopathology'));
 });
 
-test('ContactPage includes Medico-Legal Disclaimer and Emergency Advisory', () => {
-  assert(contactContent.includes('NOT TO BE USED FOR MEDICO-LEGAL PURPOSE'));
-  assert(contactContent.includes('108 / 102'));
-});
-
-// 5. Verify Compact Navbar.tsx
-console.log('\n5. Checking Compact Navbar.tsx...');
+// 7. Verify Compact Navbar.tsx
+console.log('\n7. Checking Compact Navbar.tsx...');
 const navbarContent = fs.readFileSync('src/components/common/Navbar.tsx', 'utf8');
 
 test('Navbar includes compact mobile header and hamburger menu toggle', () => {
@@ -142,8 +183,8 @@ test('Navbar preserves persona switcher and authentication modal trigger', () =>
   assert(navbarContent.includes('onOpenAuthModal'));
 });
 
-// 6. Verify ProtectedRoute.tsx
-console.log('\n6. Checking ProtectedRoute.tsx...');
+// 8. Verify ProtectedRoute.tsx
+console.log('\n8. Checking ProtectedRoute.tsx...');
 const protectedRouteContent = fs.readFileSync('src/components/common/ProtectedRoute.tsx', 'utf8');
 
 test('ProtectedRoute guards against unauthenticated / guest access', () => {
@@ -156,8 +197,8 @@ test('ProtectedRoute guards role permissions', () => {
   assert(protectedRouteContent.includes('allowedRoles'));
 });
 
-// 7. Verify Responsive Styling Consistency (320px - 430px)
-console.log('\n7. Checking Responsive Classes (320px - 430px mobile friendly)...');
+// 9. Verify Responsive Styling Consistency (320px - 430px)
+console.log('\n9. Checking Responsive Classes (320px - 430px mobile friendly)...');
 test('All pages avoid hardcoded wide pixel widths', () => {
   const allPageFiles = [
     'src/pages/HomePage.tsx',
@@ -166,10 +207,10 @@ test('All pages avoid hardcoded wide pixel widths', () => {
     'src/pages/BookingPage.tsx',
     'src/components/common/Navbar.tsx',
     'src/components/common/Footer.tsx',
+    'src/components/common/FloatingContactButton.tsx',
   ];
   for (const file of allPageFiles) {
     const content = fs.readFileSync(file, 'utf8');
-    // Ensure no fixed widths like w-[500px], w-[800px] (excluding max-w and min-w)
     const fixedWidths = content.match(/(?<![a-zA-Z0-9_-])w-\[\d{3,4}px\]/g);
     assert(!fixedWidths, `${file} has hardcoded wide pixel widths: ${fixedWidths}`);
   }
@@ -180,7 +221,7 @@ console.log(`Results: ${passed} / ${total} tests passed (${Math.round((passed / 
 console.log('--------------------------------------------------------');
 
 if (passed === total) {
-  console.log('\nAll multi-page refactoring requirements verified successfully!\n');
+  console.log('\nAll multi-page and simplification requirements verified successfully!\n');
   process.exit(0);
 } else {
   console.error('\nSome verification tests failed.\n');

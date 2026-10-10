@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
-  PhoneCall,
   Bell,
   LogOut,
   Menu,
   X,
   ChevronDown,
-  Sparkles,
   Calendar,
-  FlaskConical,
-  MapPin,
-  Home,
-  Share2,
 } from 'lucide-react';
 import { useAuth } from '../../features/auth/AuthContext';
 import { useNotifications } from '../../features/notifications/NotificationContext';
@@ -61,137 +55,124 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
     { to: '/', label: 'Home' },
     { to: '/tests', label: 'Test Price List', badge: '62 Tests' },
     { to: '/book', label: 'Book Home Visit' },
-    { to: '/contact', label: 'Contact & Lab' },
+    { to: '/contact', label: 'Contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-      {/* ─── Top Utility Bar ──────────────────────────────────────────────── */}
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      {/* ─── Slim Top Bar (Reg. No. & Demo Persona Switcher) ──────────────── */}
       <div className="bg-obsidian-950 text-slate-200 text-xs py-1.5 px-3 sm:px-6 border-b border-brand-900/50">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          {/* Left: Reg No & Lab Location */}
-          <div className="flex items-center gap-2 sm:gap-3 text-[11px] text-slate-300">
+          {/* Reg No */}
+          <div className="flex items-center gap-2 text-[11px] text-slate-300">
             <span className="text-gold-400 font-bold flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse"></span>
-              Reg. No. 229112131723
+              Govt. Reg. No. 229112131723
             </span>
             <span className="text-slate-500 hidden sm:inline">•</span>
-            <span className="text-slate-300 hidden md:inline truncate max-w-xs xl:max-w-md">
-              📍 Gaya Patna Road, Iqbal Nagar, Gaya – 823002
-            </span>
+            <span className="text-slate-400 hidden sm:inline">Estd. 2024 • Gaya, Bihar</span>
           </div>
 
-          {/* Right: Phone Hotline + Persona Switcher */}
-          <div className="flex items-center gap-2 sm:gap-4 ml-auto">
-            {/* Phone link */}
-            <div className="flex items-center gap-1 text-gold-400 font-bold text-[11px] sm:text-xs">
-              <PhoneCall className="w-3 h-3 text-gold-400 shrink-0" />
-              <a href="tel:6206175583" className="hover:text-gold-200 transition">
-                6206175583
-              </a>
-            </div>
+          {/* Persona Switcher */}
+          <div className="relative ml-auto">
+            <button
+              onClick={() => setPersonaDropdownOpen(!personaDropdownOpen)}
+              className="bg-brand-900/80 hover:bg-brand-800 text-slate-100 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-medium flex items-center gap-1 border border-gold-500/30 transition"
+              aria-expanded={personaDropdownOpen}
+              aria-label="Switch Persona"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+              <span className="truncate max-w-[110px] sm:max-w-[140px]">
+                {role === 'admin' && 'Admin Console'}
+                {role === 'professional' && `Clinician: ${currentUser?.fullName?.split(' ')[0] || 'Pro'}`}
+                {role === 'patient' && `Patient: ${currentUser?.fullName?.split(' ')[0] || 'User'}`}
+                {role === 'guest' && 'Guest Mode'}
+              </span>
+              <ChevronDown className="w-2.5 h-2.5 text-slate-400 shrink-0" />
+            </button>
 
-            {/* Persona Switcher for Evaluation */}
-            <div className="relative">
-              <button
-                onClick={() => setPersonaDropdownOpen(!personaDropdownOpen)}
-                className="bg-brand-900/80 hover:bg-brand-800 text-slate-100 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-medium flex items-center gap-1 border border-gold-500/30 transition"
-                aria-expanded={personaDropdownOpen}
-                aria-label="Switch Persona"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
-                <span className="truncate max-w-[100px] sm:max-w-[130px]">
-                  {role === 'admin' && 'Admin Console'}
-                  {role === 'professional' && `Clinician: ${currentUser?.fullName?.split(' ')[0] || 'Pro'}`}
-                  {role === 'patient' && `Patient: ${currentUser?.fullName?.split(' ')[0] || 'User'}`}
-                  {role === 'guest' && 'Guest Mode'}
-                </span>
-                <ChevronDown className="w-2.5 h-2.5 text-slate-400 shrink-0" />
-              </button>
-
-              {personaDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-56 max-w-[calc(100vw-1.5rem)] bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in">
-                  <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
-                    Switch Test Persona
-                  </div>
-                  <button
-                    onClick={() => {
-                      switchPersona('patient_rajesh');
-                      setPersonaDropdownOpen(false);
-                      navigate('/patient/dashboard');
-                    }}
-                    className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between"
-                  >
-                    <div>
-                      <div className="font-semibold text-slate-900">Rajesh Verma</div>
-                      <div className="text-[10px] text-slate-500">Patient (Upcoming Visits)</div>
-                    </div>
-                    {role === 'patient' && currentUser?.fullName?.includes('Rajesh') && (
-                      <span className="w-2 h-2 rounded-full bg-brand-500"></span>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      switchPersona('doctor_aisha');
-                      setPersonaDropdownOpen(false);
-                      navigate('/professional/dashboard');
-                    }}
-                    className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between"
-                  >
-                    <div>
-                      <div className="font-semibold text-slate-900">Dr. Aisha Sharma</div>
-                      <div className="text-[10px] text-slate-500">Doctor (Consults & Vitals)</div>
-                    </div>
-                    {role === 'professional' && currentUser?.fullName?.includes('Aisha') && (
-                      <span className="w-2 h-2 rounded-full bg-brand-500"></span>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      switchPersona('admin');
-                      setPersonaDropdownOpen(false);
-                      navigate('/admin');
-                    }}
-                    className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between border-t border-slate-100"
-                  >
-                    <div>
-                      <div className="font-semibold text-purple-700">Operations Admin</div>
-                      <div className="text-[10px] text-slate-500">Price Management & Staff</div>
-                    </div>
-                    {role === 'admin' && <span className="w-2 h-2 rounded-full bg-purple-600"></span>}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      switchPersona('guest');
-                      setPersonaDropdownOpen(false);
-                      navigate('/');
-                    }}
-                    className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between border-t border-slate-100 text-slate-600"
-                  >
-                    <div>
-                      <div className="font-medium">Guest (Public Browsing)</div>
-                      <div className="text-[10px] text-slate-400">View public pages</div>
-                    </div>
-                    {role === 'guest' && <span className="w-2 h-2 rounded-full bg-slate-400"></span>}
-                  </button>
+            {personaDropdownOpen && (
+              <div className="absolute right-0 mt-1 w-56 max-w-[calc(100vw-1.5rem)] bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in">
+                <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+                  Switch Demo Persona
                 </div>
-              )}
-            </div>
+                <button
+                  onClick={() => {
+                    switchPersona('patient_rajesh');
+                    setPersonaDropdownOpen(false);
+                    navigate('/patient/dashboard');
+                  }}
+                  className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between"
+                >
+                  <div>
+                    <div className="font-semibold text-slate-900">Rajesh Verma</div>
+                    <div className="text-[10px] text-slate-500">Patient (Upcoming Visits)</div>
+                  </div>
+                  {role === 'patient' && currentUser?.fullName?.includes('Rajesh') && (
+                    <span className="w-2 h-2 rounded-full bg-brand-500"></span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    switchPersona('doctor_aisha');
+                    setPersonaDropdownOpen(false);
+                    navigate('/professional/dashboard');
+                  }}
+                  className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between"
+                >
+                  <div>
+                    <div className="font-semibold text-slate-900">Dr. Aisha Sharma</div>
+                    <div className="text-[10px] text-slate-500">Doctor (Consults & Vitals)</div>
+                  </div>
+                  {role === 'professional' && currentUser?.fullName?.includes('Aisha') && (
+                    <span className="w-2 h-2 rounded-full bg-brand-500"></span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    switchPersona('admin');
+                    setPersonaDropdownOpen(false);
+                    navigate('/admin');
+                  }}
+                  className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between border-t border-slate-100"
+                >
+                  <div>
+                    <div className="font-semibold text-purple-700">Operations Admin</div>
+                    <div className="text-[10px] text-slate-500">Price Management & Staff</div>
+                  </div>
+                  {role === 'admin' && <span className="w-2 h-2 rounded-full bg-purple-600"></span>}
+                </button>
+
+                <button
+                  onClick={() => {
+                    switchPersona('guest');
+                    setPersonaDropdownOpen(false);
+                    navigate('/');
+                  }}
+                  className="w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between border-t border-slate-100 text-slate-600"
+                >
+                  <div>
+                    <div className="font-medium">Guest (Browsing)</div>
+                    <div className="text-[10px] text-slate-400">View public pages</div>
+                  </div>
+                  {role === 'guest' && <span className="w-2 h-2 rounded-full bg-slate-400"></span>}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* ─── Main Navbar Header ───────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Brand Logo & Title */}
-        <Link to="/" className="flex items-center gap-2 sm:gap-3 group shrink-0 min-w-0 select-none">
-          <div className="relative shrink-0 w-10 h-10 sm:w-11 sm:h-11">
+      {/* ─── Minimal Main Navigation Bar ──────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-15 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Brand Logo with Official Image */}
+        <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0 select-none">
+          <div className="relative shrink-0 w-9 h-9 sm:w-10 sm:h-10">
             <img
               src="/trust-patho-lab-logo.png"
-              alt="Trust Patho Lab Official Logo"
+              alt="Trust Patho Lab"
               className="w-full h-full rounded-full border-2 border-gold-500 object-cover shadow-sm group-hover:scale-105 transition duration-200"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
@@ -209,8 +190,8 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0">
+        {/* Desktop Links */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2 shrink-0">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -233,30 +214,18 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
           ))}
         </nav>
 
-        {/* Right Action Icons & Mobile Hamburger */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {/* Quick WhatsApp Action (Hidden on tiny screens) */}
-          <a
-            href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20test."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-1.5 rounded-xl border border-emerald-300 transition shrink-0"
-            title="Chat on WhatsApp"
-          >
-            <Share2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="hidden md:inline">WhatsApp</span>
-          </a>
-
+        {/* Right Action Buttons */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Direct Booking CTA */}
           <Link
             to="/book"
-            className="inline-flex items-center gap-1.5 bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-gold-500/40 shadow-xs transition active:scale-95 whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-1.5 bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-gold-500/40 shadow-xs transition active:scale-95 whitespace-nowrap"
           >
             <Calendar className="w-3.5 h-3.5 text-gold-400" />
-            <span className="hidden xs:inline">Book Visit</span>
+            <span>Book Home Visit</span>
           </Link>
 
-          {/* Notifications Bell */}
+          {/* Notifications Dropdown */}
           <div className="relative">
             <button
               onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
@@ -319,7 +288,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
             )}
           </div>
 
-          {/* User Profile / Sign In */}
+          {/* User Profile / Dashboard Button */}
           {isAuthenticated && role !== 'guest' ? (
             <div className="flex items-center gap-1">
               <Link
@@ -330,7 +299,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
                 <div className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-[10px]">
                   {currentUser?.fullName?.[0] || 'U'}
                 </div>
-                <span className="hidden md:inline text-xs">{getDashboardLabel()}</span>
+                <span className="hidden lg:inline text-xs">{getDashboardLabel()}</span>
               </Link>
               <button
                 onClick={logout}
@@ -350,10 +319,10 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
             </button>
           )}
 
-          {/* Compact Mobile Hamburger Menu Button */}
+          {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+            className="md:hidden p-1.5 rounded-xl text-slate-700 hover:bg-slate-100 transition"
             aria-label="Toggle Menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -362,9 +331,9 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
         </div>
       </div>
 
-      {/* ─── Compact Mobile Drawer ────────────────────────────────────────── */}
+      {/* ─── Minimal Mobile Drawer ────────────────────────────────────────── */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1 shadow-lg animate-in fade-in">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1 shadow-lg animate-in fade-in">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -387,16 +356,7 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
             </NavLink>
           ))}
 
-          <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-            <a
-              href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20test."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 rounded-xl transition shadow-xs"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              <span>WhatsApp Gaya Desk</span>
-            </a>
+          <div className="pt-2 border-t border-slate-100">
             <Link
               to="/book"
               onClick={() => setMobileMenuOpen(false)}
@@ -405,11 +365,6 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
               <Calendar className="w-3.5 h-3.5 text-gold-400" />
               <span>Book Home Visit</span>
             </Link>
-          </div>
-
-          <div className="pt-2 text-[10px] text-slate-400 text-center border-t border-slate-100">
-            <p className="font-semibold text-slate-600">Trust Patho Lab • Reg. No. 229112131723</p>
-            <p className="text-gold-600 font-bold">24/7 Helpline: 6206175583</p>
           </div>
         </div>
       )}

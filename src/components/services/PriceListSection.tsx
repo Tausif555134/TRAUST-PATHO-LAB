@@ -498,41 +498,6 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
             )}
           </div>
         )}
-
-        {/* Bottom Clinical Assurance Banner */}
-        <div className="mt-10 sm:mt-12 bg-gradient-to-r from-obsidian-950 via-brand-950 to-obsidian-950 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white border border-gold-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center md:text-left">
-            <span className="text-xs font-bold text-gold-400 uppercase tracking-wider flex items-center justify-center md:justify-start gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              Need Multiple Diagnostic Tests?
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-white">
-              Consult Our Gaya Phlebotomy Desk
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-              We arrange certified phlebotomists with sterile barcoded vacutainer vials directly to your residence anywhere across Gaya and surrounding districts.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
-            <a
-              href="tel:6206175583"
-              className="w-full sm:w-auto bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 min-h-[44px]"
-            >
-              <PhoneCall className="w-4 h-4" />
-              Call 6206175583
-            </a>
-            <a
-              href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20blood%20test%20collection."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl transition flex items-center justify-center gap-2 border border-emerald-400/40 min-h-[44px]"
-            >
-              <Share2 className="w-4 h-4" />
-              WhatsApp Us
-            </a>
-          </div>
-        </div>
       </div>
 
       {/* PRINT FLYER MODAL */}

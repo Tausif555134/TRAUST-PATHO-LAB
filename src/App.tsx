@@ -6,6 +6,7 @@ import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { AuthModal } from './components/common/AuthModal';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { FloatingContactButton } from './components/common/FloatingContactButton';
 
 import { HomePage } from './pages/HomePage';
 import { TestsPage } from './pages/TestsPage';
@@ -70,6 +71,9 @@ export const AppContent: React.FC = () => {
       </main>
 
       <Footer />
+
+      {/* Persistent Floating Contact Button */}
+      <FloatingContactButton />
 
       <AuthModal
         isOpen={authModalOpen}

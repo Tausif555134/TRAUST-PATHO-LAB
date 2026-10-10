@@ -56,23 +56,14 @@ export const TestsPage: React.FC = () => {
               </span>
             </div>
 
-            <div className="pt-3 flex flex-wrap gap-3">
+            <div className="pt-2 flex flex-wrap gap-3">
               <Link
                 to="/book"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-xs sm:text-sm px-5 py-3 rounded-xl shadow-lg transition active:scale-95 min-h-[42px]"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg transition active:scale-95 min-h-[42px]"
               >
                 <Calendar className="w-4 h-4" />
-                Book Home Sample Collection
+                <span>Book Home Sample Collection</span>
               </Link>
-              <a
-                href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20have%20an%20inquiry%20about%20your%20pathology%20tests."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-xl transition min-h-[42px]"
-              >
-                <Share2 className="w-4 h-4" />
-                WhatsApp Gaya Desk
-              </a>
             </div>
           </div>
         </div>
