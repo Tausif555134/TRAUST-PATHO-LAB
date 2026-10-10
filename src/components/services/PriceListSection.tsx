@@ -218,18 +218,20 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
         </div>
 
         {/* Results Counter */}
-        <div className="flex items-center justify-between mb-4 px-1 text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-4 px-1 text-xs text-slate-500">
           <span>Showing <strong>{filteredTests.length}</strong> of {tests.length} official tests</span>
           <span className="text-[11px] text-brand-700 font-medium">Free Doorstep Phlebotomist Visit on orders above ₹500</span>
-          {/* 1. TABLE / LEDGER VIEW (Responsive: Mobile Cards on <md, Ledger Table on md+) */}
+        </div>
+
+        {/* 1. TABLE / LEDGER VIEW (Responsive: Mobile Cards on <md, Ledger Table on md+) */}
         {viewMode === 'table' && (
-          <div>
+          <div className="w-full">
             {/* Mobile Card List (< md) */}
-            <div className="md:hidden space-y-3">
+            <div className="md:hidden space-y-3 w-full">
               {filteredTests.map((test) => (
                 <div
                   key={test.id}
-                  className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs hover:border-gold-500/40 transition"
+                  className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs hover:border-gold-500/40 transition w-full"
                 >
                   <div className="flex items-start justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -254,29 +256,29 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
                   <h3 className="font-extrabold text-slate-900 text-sm mt-1">{test.name}</h3>
                   <p className="text-xs text-slate-500 mt-0.5 leading-snug">{test.fullName}</p>
 
-                  <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-2.5 pt-2 border-t border-slate-100">
+                  <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-2.5 pt-2 border-t border-slate-100 flex-wrap">
                     <span>Sample: <strong className="text-slate-700 font-medium">{test.sampleType}</strong></span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-slate-400 shrink-0" /> {test.turnaroundTime}
+                      <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" /> {test.turnaroundTime}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-slate-100">
                     <button
                       onClick={() => handleBookTest(test)}
-                      className="w-full bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-2.5 rounded-xl border border-gold-500/40 transition shadow-xs flex items-center justify-center gap-1.5 active:scale-95 min-h-[40px]"
+                      className="w-full bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-2.5 px-3 rounded-xl border border-gold-500/40 transition shadow-xs flex items-center justify-center gap-1.5 active:scale-95 min-h-[40px]"
                     >
-                      <CalendarCheck className="w-3.5 h-3.5 text-gold-400" />
+                      <CalendarCheck className="w-3.5 h-3.5 text-gold-400 shrink-0" />
                       <span>Book Visit</span>
                     </button>
                     <a
                       href={getWhatsAppLink(test)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-2.5 rounded-xl transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]"
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-2.5 px-3 rounded-xl transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]"
                     >
-                      <PhoneCall className="w-3.5 h-3.5" />
+                      <PhoneCall className="w-3.5 h-3.5 shrink-0" />
                       <span>WhatsApp</span>
                     </a>
                   </div>
@@ -348,7 +350,7 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
                         <td className="py-3.5 px-4 hidden sm:table-cell text-xs text-slate-600">
                           <div>{test.sampleType}</div>
                           <div className="text-[11px] text-slate-400 flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-slate-400" />
+                            <Clock className="w-3.5 h-3.5 text-slate-400" />
                             {test.turnaroundTime}
                           </div>
                         </td>
@@ -410,11 +412,11 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
 
         {/* 2. CARD CATALOG VIEW */}
         {viewMode === 'cards' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 w-full">
             {filteredTests.map((test) => (
               <div
                 key={test.id}
-                className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 hover:border-brand-500 hover:shadow-md transition flex flex-col justify-between group"
+                className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 hover:border-brand-500 hover:shadow-md transition flex flex-col justify-between group w-full"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
@@ -427,7 +429,7 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
                   <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-brand-700 transition">
                     {test.name}
                   </h3>
-                  <p className="text-xs text-slate-600 line-clamp-2 mt-1">
+                  <p className="text-xs text-slate-600 line-clamp-2 mt-1 leading-snug">
                     {test.fullName}
                   </p>
 
@@ -448,32 +450,52 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
                   </div>
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <div>
-                    <div className="text-[11px] text-slate-400 uppercase font-semibold">Test Fee</div>
-                    <div className="text-xl font-black text-obsidian-950">₹{test.price}</div>
+                <div className="mt-4 pt-3 border-t border-slate-100">
+                  <div className="flex items-baseline justify-between mb-3">
+                    <div>
+                      <div className="text-[10px] text-slate-400 uppercase font-semibold">Test Fee</div>
+                      <div className="text-xl font-black text-obsidian-950">₹{test.price}</div>
+                    </div>
+                    <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      Home Visit Ready
+                    </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => handleBookTest(test)}
+                      className="w-full bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-2.5 px-3 rounded-xl border border-gold-500/40 transition shadow-xs flex items-center justify-center gap-1.5 active:scale-95 min-h-[40px]"
+                    >
+                      <CalendarCheck className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+                      <span>Book Visit</span>
+                    </button>
                     <a
                       href={getWhatsAppLink(test)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition"
-                      title="Quick WhatsApp Booking"
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-2.5 px-3 rounded-xl transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]"
                     >
-                      <PhoneCall className="w-4 h-4" />
+                      <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+                      <span>WhatsApp</span>
                     </a>
-                    <button
-                      onClick={() => handleBookTest(test)}
-                      className="bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs px-4 py-2.5 rounded-xl border border-gold-500/40 transition shadow-xs"
-                    >
-                      Book Visit
-                    </button>
                   </div>
                 </div>
               </div>
             ))}
+
+            {filteredTests.length === 0 && (
+              <div className="col-span-full py-12 text-center text-slate-500 bg-white rounded-2xl border border-slate-200 p-6">
+                <Info className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                <p className="font-semibold text-slate-700">No tests found matching "{search}"</p>
+                <p className="text-xs text-slate-400 mt-1">Try searching by category, medical keyword, or reset filters.</p>
+                <button
+                  onClick={() => { setSearch(''); setSelectedCategory('All'); setPriceRange('all'); }}
+                  className="mt-3 text-xs text-brand-600 font-bold hover:underline"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -510,7 +532,6 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
               WhatsApp Us
             </a>
           </div>
-        </div>
         </div>
       </div>
 
