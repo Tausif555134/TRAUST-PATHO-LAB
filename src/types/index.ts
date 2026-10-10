@@ -195,3 +195,44 @@ export interface Review {
   comment: string;
   createdAt: string;
 }
+
+export type LabCategory =
+  | 'Haematology'
+  | 'Serology'
+  | 'Hormones'
+  | 'Biochemistry'
+  | 'Fluid Analysis'
+  | 'Histopathology'
+  | 'Immunology'
+  | 'FNAC'
+  | 'Special Profiles';
+
+export interface LabTest {
+  id: string;
+  slNo: number; // 1 to 66 as per flyer image
+  code: string;
+  name: string; // Exact flyer name e.g. CBC, L.F.T, HBA1C, AFB(SPOTUM), FRETTIN, PAP SAMER
+  fullName: string;
+  category: LabCategory;
+  price: number;
+  sampleType: string;
+  turnaroundTime: string;
+  fastingRequired?: boolean;
+  preparationInstructions?: string;
+  description?: string;
+  isAvailable: boolean;
+}
+
+export interface LabInfo {
+  name: string;
+  subtitle: string;
+  registrationNo: string;
+  address: string;
+  phones: string[];
+  whatsapp: string;
+  established: string;
+  services: string[];
+  features: string[];
+  disclaimer: string;
+}
+

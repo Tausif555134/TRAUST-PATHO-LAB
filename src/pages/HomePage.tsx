@@ -13,13 +13,69 @@ import {
   PhoneCall,
   Activity,
   UserCheck,
-  HeartPulse,
   Award,
   Sparkles,
+  Droplet,
+  FileText,
+  Microscope,
+  CheckCircle2,
+  Share2,
 } from 'lucide-react';
 import { dbService } from '../services/db';
 import { Service, Review } from '../types';
 import { ServiceCard } from '../components/services/ServiceCard';
+import { PriceListSection } from '../components/services/PriceListSection';
+
+const EIGHT_FACILITIES = [
+  {
+    name: 'Haematology',
+    desc: 'CBC, Hemogram, Hb%, ESR, BT/CT, Peripheral Smear for anemia & infections.',
+    icon: Droplet,
+    testsCount: '5+ Tests',
+  },
+  {
+    name: 'Serology',
+    desc: 'Rapid & ELISA infectious screens (HIV, HBsAg, HCV, VDRL, Widal, Malaria, TB Gold).',
+    icon: ShieldCheck,
+    testsCount: '13+ Tests',
+  },
+  {
+    name: 'Hormones',
+    desc: 'Endocrine profiling including Thyroid (T3/T4/TSH), LH, FSH, Prolactin, AMH, PCOD.',
+    icon: Activity,
+    testsCount: '7+ Tests',
+  },
+  {
+    name: 'Biochemistry',
+    desc: 'Organ function profiles (LFT, KFT, Lipid), HbA1c, Fasting Sugar, Calcium & Electrolytes.',
+    icon: Sparkles,
+    testsCount: '15+ Tests',
+  },
+  {
+    name: 'Fluid Analysis',
+    desc: 'Urine R/E & Culture, Stool examination & culture, Pleural/Ascitic Fluid ADA.',
+    icon: FileText,
+    testsCount: '5+ Tests',
+  },
+  {
+    name: 'Histopathology',
+    desc: 'Biopsy tissue analysis, conventional Pap smear, liquid-based cytology with HPV.',
+    icon: Microscope,
+    testsCount: '4+ Tests',
+  },
+  {
+    name: 'Immunology',
+    desc: 'Inflammatory & autoimmune markers including CRP, RA Factor, ASO Titer, Total IgE.',
+    icon: Award,
+    testsCount: '4+ Tests',
+  },
+  {
+    name: 'FNAC',
+    desc: 'Fine Needle Aspiration Cytology for painless investigation of swellings & nodules.',
+    icon: UserCheck,
+    testsCount: 'Superficial / Deep',
+  },
+];
 
 export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -59,98 +115,144 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/60 via-white to-slate-50 pt-12 pb-20 lg:pt-16 lg:pb-28 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* 1. HERO SECTION - ROYAL OBSIDIAN & GOLD BRANDING */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-obsidian-950 via-brand-950 to-obsidian-900 text-white pt-12 pb-20 lg:pt-16 lg:pb-24 border-b border-brand-900/60">
+        {/* Subtle decorative glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-brand-800/20 blur-3xl pointer-events-none rounded-full"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-100/80 border border-brand-200 text-brand-800 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
-                <span className="text-brand-900 font-bold">New:</span> 45-Minute Rapid Doorstep Doctor Dispatch
+              {/* Accreditations Badge */}
+              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-brand-900/80 border border-gold-500/40 text-gold-300 text-xs font-semibold backdrop-blur-sm">
+                <span className="w-2 h-2 rounded-full bg-gold-400 animate-ping"></span>
+                <span>Govt. Reg. No. 2291212131723</span>
+                <span className="text-gold-500">•</span>
+                <span>Estd. 2024 • Gaya, Bihar</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-                Healthcare at Your <span className="text-brand-600">Doorstep</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+                Trusted Pathology at Your{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-amber-200">
+                  Doorstep
+                </span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed max-w-2xl">
-                Book trusted healthcare services and get professional care at your home. Verified doctors, registered nurses, and painless lab technicians dispatched on demand.
+              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl">
+                Trust Patho Lab brings hospital-grade diagnostic accuracy, sterile vacutainer sample collection, and rapid digital pathology reports directly to your home in Gaya and surrounding districts.
               </p>
 
+              {/* Core Features Strip */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs text-slate-200">
+                <span className="px-3 py-1 rounded-full bg-obsidian-900/90 border border-gold-500/30 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-gold-400" /> 24/7 Hour Service
+                </span>
+                <span className="px-3 py-1 rounded-full bg-obsidian-900/90 border border-gold-500/30 flex items-center gap-1.5">
+                  <Droplet className="w-3.5 h-3.5 text-rose-400" /> Home Sample Collection
+                </span>
+                <span className="px-3 py-1 rounded-full bg-obsidian-900/90 border border-gold-500/30 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Multi-Brand Tests
+                </span>
+              </div>
+
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-3">
+                <a
+                  href="#test-price-list"
+                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-sm px-7 py-4 rounded-2xl shadow-lg shadow-gold-500/20 transition active:scale-95"
+                >
+                  <Tag className="w-4 h-4" />
+                  View Test Price List (62 Tests)
+                </a>
                 <Link
                   to="/book"
-                  className="inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-base px-7 py-4 rounded-2xl shadow-lg shadow-brand-500/25 transition active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-sm px-6 py-4 rounded-2xl border border-gold-500/40 shadow-xs transition active:scale-95"
                 >
-                  <CalendarCheck className="w-5 h-5" />
-                  Book a Home Checkup
+                  <CalendarCheck className="w-4 h-4 text-gold-400" />
+                  Book Home Collection
                 </Link>
                 <a
-                  href="#services-section"
-                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base px-7 py-4 rounded-2xl border border-slate-200 shadow-xs transition hover:border-brand-300"
+                  href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20blood%20test."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm px-5 py-4 rounded-2xl transition shadow-xs"
                 >
-                  View Services
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <PhoneCall className="w-4 h-4" />
+                  WhatsApp
                 </a>
               </div>
 
-              {/* Quick Metrics / Social Proof */}
-              <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-6 max-w-lg">
-                <div>
-                  <div className="text-2xl font-black text-slate-900">4.9/5</div>
-                  <div className="text-xs text-slate-500 font-medium mt-0.5">Patient Satisfaction</div>
+              {/* Quick Contact & Address Subtext */}
+              <div className="pt-4 border-t border-brand-900/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-gold-400 shrink-0" />
+                  <span>Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002</span>
                 </div>
-                <div>
-                  <div className="text-2xl font-black text-slate-900">10,000+</div>
-                  <div className="text-xs text-slate-500 font-medium mt-0.5">Home Visits Done</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-slate-900">100%</div>
-                  <div className="text-xs text-slate-500 font-medium mt-0.5">Verified Clinicians</div>
+                <div className="flex items-center gap-2 text-gold-300 font-semibold">
+                  <PhoneCall className="w-3.5 h-3.5" />
+                  <span>Call: 6206175583, 6299476228</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Hero Visual Card */}
+            {/* Right Hero Visual Card with Official Logo */}
             <div className="lg:col-span-5 relative">
               <div className="relative mx-auto max-w-md lg:max-w-none">
-                {/* Decorative glow */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-brand-400 to-emerald-300 rounded-3xl blur-xl opacity-30"></div>
+                {/* Gold glowing halo */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-gold-500 to-brand-500 rounded-3xl blur-2xl opacity-30"></div>
 
                 {/* Primary Card */}
-                <div className="relative bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden">
-                  <div className="relative h-72 sm:h-80 overflow-hidden">
+                <div className="relative bg-obsidian-950 rounded-3xl shadow-2xl border-2 border-gold-500/40 overflow-hidden text-center p-6 sm:p-8">
+                  {/* Crest Logo Display */}
+                  <div className="relative mx-auto w-36 h-36 sm:w-44 sm:h-44 mb-6">
                     <img
-                      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=80"
-                      alt="Doctor home visit checkup"
-                      className="w-full h-full object-cover"
+                      src="/trust-patho-lab-logo.jpg"
+                      alt="Trust Patho Lab Official Crest Logo"
+                      className="w-full h-full object-cover rounded-full border-4 border-gold-400 shadow-xl shadow-gold-500/20"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <span className="inline-block px-2.5 py-1 rounded-full bg-brand-500 text-white text-[11px] font-bold uppercase tracking-wider mb-1">
-                        Active Clinician on Duty
-                      </span>
-                      <h4 className="text-lg font-bold">Dr. Aisha Sharma & Team</h4>
-                      <p className="text-xs text-slate-200">
-                        Dispatched with sterile diagnostics and emergency vitals monitors.
-                      </p>
+                    <div className="absolute -bottom-2 inset-x-0 mx-auto w-max px-3 py-0.5 rounded-full bg-gold-500 text-obsidian-950 font-black text-[10px] tracking-wider uppercase shadow">
+                      SINCE 2024
                     </div>
                   </div>
 
-                  {/* Micro Live Tracker Preview */}
-                  <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center">
-                        <Activity className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900">Instant Digital Report</div>
-                        <div className="text-[11px] text-slate-500">Delivered within 30 mins of visit</div>
-                      </div>
+                  <h3 className="text-2xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200">
+                    TRUST PATHO LAB
+                  </h3>
+                  <p className="text-xs font-bold text-gold-300 uppercase tracking-widest mt-1">
+                    PATHOLOGY LABORATORY • GAYA
+                  </p>
+
+                  <div className="mt-5 p-3.5 bg-brand-950/70 rounded-2xl border border-gold-500/30 text-left space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span>Government Registration:</span>
+                      <strong className="text-gold-400">2291212131723</strong>
                     </div>
-                    <span className="text-xs font-bold text-brand-600">Safe & HIPAA-Ready</span>
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span>Operating Mode:</span>
+                      <strong className="text-emerald-400">24/7 Non-Stop Service</strong>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span>Phlebotomy Transit:</span>
+                      <strong className="text-slate-200">Cold-Chain Preserved</strong>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 pt-4 border-t border-brand-900/60 flex items-center justify-around text-xs">
+                    <div>
+                      <div className="text-lg font-black text-gold-400">62+</div>
+                      <div className="text-[11px] text-slate-400">Tests Catalog</div>
+                    </div>
+                    <div className="h-7 w-px bg-brand-900"></div>
+                    <div>
+                      <div className="text-lg font-black text-gold-400">8</div>
+                      <div className="text-[11px] text-slate-400">Facilities</div>
+                    </div>
+                    <div className="h-7 w-px bg-brand-900"></div>
+                    <div>
+                      <div className="text-lg font-black text-gold-400">100%</div>
+                      <div className="text-[11px] text-slate-400">Certified Lab</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,288 +261,251 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
         </div>
       </section>
 
-      {/* 2. TRUST SECTION */}
-      <section id="trust-section" className="py-14 bg-white border-b border-slate-100">
+      {/* 2. EIGHT SPECIALIZED FACILITIES SHOWCASE */}
+      <section id="services-section" className="py-14 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              Why Families Rely on TRUST PATHO LAB
-            </h2>
-            <p className="text-sm text-slate-600 mt-2">
-              We uphold the highest clinical standards of hospital infection control, privacy, and clinician credentialing.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {/* Pillar 1 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition">
-              <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">Verified Healthcare Professionals</h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                Background-checked doctors, nurses, and technicians with government license verification.
-              </p>
-            </div>
-
-            {/* Pillar 2 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition">
-              <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
-                <HeartPulse className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">Home Visit Service</h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                No hospital queues or risk of cross-infection. Premium care delivered right to your living room.
-              </p>
-            </div>
-
-            {/* Pillar 3 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition">
-              <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">Flexible Scheduling</h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                Choose convenient 1-hour appointment slots from 7:00 AM to 8:00 PM, 7 days a week.
-              </p>
-            </div>
-
-            {/* Pillar 4 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition">
-              <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
-                <Lock className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">Secure Patient Information</h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                256-bit encrypted medical reports accessible strictly to you and your assigned clinician.
-              </p>
-            </div>
-
-            {/* Pillar 5 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition">
-              <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
-                <Tag className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-900">Transparent Pricing</h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                Clear all-inclusive upfront pricing. Zero surprise travel charges or hidden consumable fees.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. DYNAMIC SERVICES SECTION */}
-      <section id="services-section" className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-brand-700 font-semibold text-xs uppercase tracking-wider mb-1">
-              <HeartPulse className="w-4 h-4" />
-              Clinical Offerings
-            </div>
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              Popular Doorstep Health Services
-            </h2>
-            <p className="text-sm text-slate-600 mt-1 max-w-xl">
-              From general checkups and certified nursing to painless blood collection and 12-lead ECGs.
-            </p>
-          </div>
-
-          {/* Search Box */}
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search checkup, test, doctor..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 bg-white shadow-xs outline-none"
-            />
-          </div>
-        </div>
-
-        {/* Category Filter Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
-                selectedCategory === cat
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Services Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-80 rounded-2xl bg-slate-200 animate-pulse"></div>
-            ))}
-          </div>
-        ) : filteredServices.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-3xl border border-slate-200">
-            <Activity className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="font-bold text-slate-800">No matching healthcare services found</h3>
-            <p className="text-xs text-slate-500 mt-1">
-              Try adjusting your search query or reset category filter.
-            </p>
-            <button
-              onClick={() => {
-                setSelectedCategory('All');
-                setSearchQuery('');
-              }}
-              className="mt-4 px-4 py-2 bg-brand-600 text-white text-xs font-semibold rounded-xl"
-            >
-              View All Services
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* 4. HOW IT WORKS (4 Simple Steps) */}
-      <section id="how-it-works" className="py-16 bg-white border-y border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-600">
-              Seamless Patient Experience
+            <span className="text-xs font-bold uppercase tracking-wider text-brand-700">
+              Complete Clinical Coverage
             </span>
-            <h2 className="text-3xl font-extrabold text-slate-900 mt-1">
-              How TRUST PATHO LAB Works
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-obsidian-950 mt-1">
+              8 Diagnostic Facilities Available
             </h2>
             <p className="text-sm text-slate-600 mt-2">
-              Get professional medical care at home in 4 straightforward steps.
+              Comprehensive specialized pathological analyses conducted under stringent calibration and aseptic standards.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-            {/* Step 1 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl bg-slate-50 border border-slate-100">
-              <div className="w-14 h-14 rounded-2xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-brand-500/25 mb-4">
-                1
-              </div>
-              <h3 className="text-base font-bold text-slate-900">Choose a Service</h3>
-              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                Select your required checkup, test package, or consultation from our clinical catalog.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {EIGHT_FACILITIES.map((fac, idx) => {
+              const IconComp = fac.icon;
+              return (
+                <div
+                  key={idx}
+                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-gold-500/60 hover:bg-white hover:shadow-md transition duration-200 flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-xl bg-brand-900 text-gold-400 flex items-center justify-center mb-3 shadow-xs group-hover:scale-105 transition">
+                      <IconComp className="w-5 h-5" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-extrabold text-slate-900 text-base group-hover:text-brand-800 transition">
+                        {fac.name}
+                      </h3>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-50 text-brand-800">
+                        {fac.testsCount}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                      {fac.desc}
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs">
+                    <a
+                      href="#test-price-list"
+                      className="text-brand-700 font-bold hover:text-gold-600 transition flex items-center gap-1"
+                    >
+                      View Tests <ChevronRight className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-            {/* Step 2 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl bg-slate-50 border border-slate-100">
-              <div className="w-14 h-14 rounded-2xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-brand-500/25 mb-4">
-                2
-              </div>
-              <h3 className="text-base font-bold text-slate-900">Select Date & Time</h3>
-              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                Pick a slot that fits your day and input your doorstep address with GPS landmark details.
-              </p>
-            </div>
+      {/* 3. OFFICIAL TEST PRICE LIST (62 TESTS SEARCHABLE & RESPONSIVE) */}
+      <PriceListSection />
 
-            {/* Step 3 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl bg-slate-50 border border-slate-100">
-              <div className="w-14 h-14 rounded-2xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-brand-500/25 mb-4">
-                3
-              </div>
-              <h3 className="text-base font-bold text-slate-900">Professional Visits Home</h3>
-              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                A verified clinician arrives with sterile equipment, performs the procedure, and checks vitals.
-              </p>
-            </div>
+      {/* 4. ABOUT TRUST PATHO LAB & GAYA CLINICAL DESK */}
+      <section id="lab-details" className="py-16 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-800 bg-brand-50 border border-brand-200 px-3 py-1 rounded-full inline-block">
+                  About Trust Patho Lab
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-obsidian-950">
+                  Reliable Clinical Diagnostics Serving Gaya Since 2024
+                </h2>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Established in 2024 and officially registered under <strong>Reg. No. 2291212131723</strong>, Trust Patho Lab operates with an unwavering dedication to clinical precision, rapid sample turnaround, and patient convenience. Located at Gaya Patna Road, Iqbal Nagar (near Karbala), we offer 24/7 pathology services with trained phlebotomists who travel to your home with complete sterile kit bags.
+                </p>
 
-            {/* Step 4 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl bg-brand-50 border border-brand-200">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-emerald-500/25 mb-4">
-                4
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Vacuum Tube Collection</strong>
+                      <span className="text-slate-500">Color-coded vacutainers prevent hemolysis and contamination.</span>
+                    </div>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Cold-Chain Transit</strong>
+                      <span className="text-slate-500">Specimens kept at monitored temperatures until machine aspiration.</span>
+                    </div>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Digital & Printed Reports</strong>
+                      <span className="text-slate-500">Verified reports delivered online with print and PDF export.</span>
+                    </div>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Transparent Government Pricing</strong>
+                      <span className="text-slate-500">Fixed rate-card matching the official laboratory price schedule.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-slate-900">Get Your Report</h3>
-              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                Access your digitally signed medical report, vitals log, and prescription right in your dashboard.
-              </p>
+
+              {/* Contact Card */}
+              <div className="lg:col-span-5 bg-obsidian-950 text-white rounded-2xl p-6 sm:p-7 border-2 border-gold-500/40 space-y-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/trust-patho-lab-logo.jpg"
+                    alt="Logo"
+                    className="w-10 h-10 rounded-full border border-gold-400 object-cover"
+                  />
+                  <div>
+                    <h4 className="font-extrabold text-white text-base">Gaya Laboratory Desk</h4>
+                    <span className="text-xs text-gold-400">Reg. No. 2291212131723</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-xs text-slate-300 pt-2 border-t border-brand-900/60">
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+                    <p className="leading-relaxed">
+                      Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002, Bihar
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <PhoneCall className="w-4 h-4 text-gold-400 shrink-0" />
+                    <span>6206175583, 6299476228, 9142661354</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Clock className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>24 Hours / 7 Days Service Available</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex flex-col gap-2">
+                  <a
+                    href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20order%20tests."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl transition flex items-center justify-center gap-2"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    WhatsApp Phlebotomist Dispatch
+                  </a>
+                  <a
+                    href="tel:6206175583"
+                    className="w-full bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs py-3 rounded-xl border border-gold-500/40 transition flex items-center justify-center gap-2"
+                  >
+                    <PhoneCall className="w-3.5 h-3.5 text-gold-400" />
+                    Direct Call: 6206175583
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. PATIENT TESTIMONIALS */}
-      {reviews.length > 0 && (
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              Trusted by Over 10,000+ Families
+      {/* 5. HOW IT WORKS (4 SIMPLE STEPS) */}
+      <section id="how-it-works" className="py-16 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-brand-700">
+              Seamless Doorstep Workflow
+            </span>
+            <h2 className="text-3xl font-extrabold text-obsidian-950 mt-1">
+              How Trust Patho Lab Works
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Read verified feedback from patients who booked checkups at their doorstep.
+            <p className="text-sm text-slate-600 mt-2">
+              Book clinical diagnostics at home in 4 straightforward, transparent steps.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.map((rev) => (
-              <div
-                key={rev.id}
-                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-1 text-amber-400 mb-3">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                    "{rev.comment}"
-                  </p>
-                </div>
-                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <div>
-                    <span className="font-bold text-xs text-slate-900 block">{rev.patientName}</span>
-                    <span className="text-[10px] text-slate-400">{rev.serviceName}</span>
-                  </div>
-                  <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                    Verified Visit
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 relative">
+              <span className="w-8 h-8 rounded-full bg-brand-900 text-gold-300 font-black text-sm flex items-center justify-center mb-4">
+                1
+              </span>
+              <h3 className="font-bold text-slate-900 text-base">Select Your Test</h3>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                Choose any test or profile from our official 62-test price list at transparent government-compliant rates.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 relative">
+              <span className="w-8 h-8 rounded-full bg-brand-900 text-gold-300 font-black text-sm flex items-center justify-center mb-4">
+                2
+              </span>
+              <h3 className="font-bold text-slate-900 text-base">Select Date & Time</h3>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                Choose your convenient doorstep slot. Fasting early morning slots (6 AM - 10 AM) are prioritized.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 relative">
+              <span className="w-8 h-8 rounded-full bg-brand-900 text-gold-300 font-black text-sm flex items-center justify-center mb-4">
+                3
+              </span>
+              <h3 className="font-bold text-slate-900 text-base">Home Visit & Collection</h3>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                A verified lab technician visits with vacuum vials, performs painless collection, and stores samples in cold-chain.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 relative">
+              <span className="w-8 h-8 rounded-full bg-brand-900 text-gold-300 font-black text-sm flex items-center justify-center mb-4">
+                4
+              </span>
+              <h3 className="font-bold text-slate-900 text-base">Get Digital Report</h3>
+              <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                Receive certified digital reports with QR verification on WhatsApp, patient dashboard, or print PDF.
+              </p>
+            </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* 6. CALL TO ACTION BANNER */}
-      <section className="py-16 bg-slate-900 text-white">
+      <section className="py-16 bg-obsidian-950 text-white border-t border-brand-900/60">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-emerald-400 text-xs font-semibold border border-slate-700">
-            <Sparkles className="w-4 h-4" />
-            Same-Day Slots Available in Your Area
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 border border-gold-500/40 text-gold-300 text-xs font-semibold">
+            <Sparkles className="w-4 h-4 text-gold-400" />
+            Same-Day Doorstep Phlebotomist Slots Available in Gaya
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Need healthcare at home? Book your visit today.
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+            Need doorstep pathology testing in Gaya today?
           </h2>
-          <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-            Experience hospital-grade care in the privacy, hygiene, and comfort of your home.
+          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
+            Experience clinical laboratory accuracy in the privacy, hygiene, and comfort of your home.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/book"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm shadow-xl shadow-brand-500/20 transition active:scale-95"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-obsidian-950 font-black text-sm shadow-xl shadow-gold-500/20 transition active:scale-95"
             >
-              Book a Home Visit Now
+              Book Doorstep Checkup Now
             </Link>
             <a
-              href="tel:1800-TRUST-LAB"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm border border-slate-700 transition flex items-center justify-center gap-2"
+              href="tel:6206175583"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-sm border border-gold-500/40 transition flex items-center justify-center gap-2"
             >
-              <PhoneCall className="w-4 h-4 text-emerald-400" />
-              Call 1800-TRUST-LAB
+              <PhoneCall className="w-4 h-4 text-gold-400" />
+              Call 6206175583
             </a>
           </div>
         </div>

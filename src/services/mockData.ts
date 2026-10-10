@@ -1,4 +1,4 @@
-import { Service, Professional, Patient, Booking, MedicalReport, Review } from '../types';
+import { Service, Professional, Patient, Booking, MedicalReport, Review, LabTest, LabInfo } from '../types';
 
 export const initialServices: Service[] = [
   {
@@ -636,3 +636,99 @@ export const initialReviews: Review[] = [
     createdAt: '2026-09-25T11:45:00Z',
   },
 ];
+
+export const officialLabInfo: LabInfo = {
+  name: 'Trust Patho Lab',
+  subtitle: 'Pathology Laboratory',
+  registrationNo: '2291212131723',
+  address: 'Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002, Bihar',
+  phones: ['6206175583', '6299476228', '9142661354'],
+  whatsapp: '6206175583',
+  established: '2024',
+  services: [
+    'Haematology',
+    'Serology',
+    'Hormones',
+    'Biochemistry',
+    'Fluid Analysis',
+    'Histopathology',
+    'Immunology',
+    'FNAC',
+  ],
+  features: [
+    '24/7 Hour Service',
+    'Home Sample Collection Facility Available',
+    'Multi-Brand Special Pathological Tests',
+  ],
+  disclaimer: 'This report is only for a profession opinion co-relate clinically. Not to be used for medico legal purpose',
+};
+
+export const initialLabTests: LabTest[] = [
+  // Left Column from Price List Image
+  { id: 'test-001', slNo: 1, code: 'CBC', name: 'CBC', fullName: 'Complete Blood Count (Haemogram)', category: 'Haematology', price: 350, sampleType: 'EDTA Whole Blood', turnaroundTime: 'Same Day (3-4 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-002', slNo: 2, code: 'LFT', name: 'L.F.T', fullName: 'Liver Function Test (11 Parameters)', category: 'Biochemistry', price: 650, sampleType: 'Serum', turnaroundTime: 'Same Day (4-6 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-003', slNo: 3, code: 'KFT', name: 'K.F.T', fullName: 'Kidney Function Test (Renal Profile)', category: 'Biochemistry', price: 650, sampleType: 'Serum', turnaroundTime: 'Same Day (4-6 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-004', slNo: 4, code: 'LIPID', name: 'Lipid Profile', fullName: 'Complete Lipid Profile (Cholesterol, HDL, LDL, TG)', category: 'Biochemistry', price: 650, sampleType: 'Serum', turnaroundTime: 'Same Day (4-6 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-005', slNo: 5, code: 'HBA1C', name: 'HBA1C', fullName: 'Glycosylated Haemoglobin (3-Month Sugar)', category: 'Biochemistry', price: 700, sampleType: 'EDTA Whole Blood', turnaroundTime: 'Same Day (3-4 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-006', slNo: 6, code: 'HIV', name: 'HIV', fullName: 'HIV 1 & 2 Screening (Rapid / 4th Gen ELISA)', category: 'Serology', price: 300, sampleType: 'Serum', turnaroundTime: 'Same Day (2 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-007', slNo: 7, code: 'HBSAG', name: 'HBSAg', fullName: 'Hepatitis B Surface Antigen Rapid Screen', category: 'Serology', price: 250, sampleType: 'Serum', turnaroundTime: 'Same Day (2 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-008', slNo: 8, code: 'HCV', name: 'HCV', fullName: 'Hepatitis C Virus Antibody Screening', category: 'Serology', price: 300, sampleType: 'Serum', turnaroundTime: 'Same Day (2 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-009', slNo: 9, code: 'VDRL', name: 'VDRL', fullName: 'VDRL / RPR Syphilis Test', category: 'Serology', price: 150, sampleType: 'Serum', turnaroundTime: 'Same Day (2 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-010', slNo: 10, code: 'T3T4TSH', name: 'T3T4TSH', fullName: 'Complete Thyroid Profile (Total T3, Total T4, TSH)', category: 'Hormones', price: 550, sampleType: 'Serum', turnaroundTime: 'Same Day (4-6 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-011', slNo: 11, code: 'TSH', name: 'TSH', fullName: 'Thyroid Stimulating Hormone (Ultrasensitive)', category: 'Hormones', price: 300, sampleType: 'Serum', turnaroundTime: 'Same Day (3-4 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-012', slNo: 12, code: 'ABORH', name: 'ABORH', fullName: 'Blood Grouping & Rh Factor Typing', category: 'Haematology', price: 50, sampleType: 'EDTA Whole Blood', turnaroundTime: '1 Hour', fastingRequired: false, isAvailable: true },
+  { id: 'test-013', slNo: 13, code: 'LH', name: 'LH', fullName: 'Luteinizing Hormone', category: 'Hormones', price: 600, sampleType: 'Serum', turnaroundTime: 'Same Day', fastingRequired: false, isAvailable: true },
+  { id: 'test-014', slNo: 14, code: 'FSH', name: 'F.S.H', fullName: 'Follicle Stimulating Hormone', category: 'Hormones', price: 600, sampleType: 'Serum', turnaroundTime: 'Same Day', fastingRequired: false, isAvailable: true },
+  { id: 'test-015', slNo: 15, code: 'PRL', name: 'PRL', fullName: 'Prolactin Hormone', category: 'Hormones', price: 600, sampleType: 'Serum', turnaroundTime: 'Same Day', fastingRequired: true, isAvailable: true },
+  { id: 'test-016', slNo: 16, code: 'PCOD', name: 'PCOD', fullName: 'PCOD / PCOS Comprehensive Diagnostic Profile', category: 'Hormones', price: 3100, sampleType: 'Serum', turnaroundTime: '24-48 hrs', fastingRequired: true, isAvailable: true },
+  { id: 'test-017', slNo: 17, code: 'AMH', name: 'A.M.H', fullName: 'Anti-Mullerian Hormone (Ovarian Reserve)', category: 'Hormones', price: 2100, sampleType: 'Serum', turnaroundTime: '24 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-018', slNo: 18, code: 'HB', name: 'Hb%', fullName: 'Haemoglobin Percentage (Hb%)', category: 'Haematology', price: 50, sampleType: 'EDTA Whole Blood', turnaroundTime: '30 Mins', fastingRequired: false, isAvailable: true },
+  { id: 'test-019', slNo: 19, code: 'BTCT', name: 'BT CT', fullName: 'Bleeding Time & Clotting Time', category: 'Haematology', price: 100, sampleType: 'Fresh Capillary Blood', turnaroundTime: '30 Mins', fastingRequired: false, isAvailable: true },
+  { id: 'test-020', slNo: 20, code: 'SS2', name: 'S.S - 2', fullName: 'Special Screening Package 2 (Metabolic & Organ)', category: 'Special Profiles', price: 1300, sampleType: 'Blood & Urine', turnaroundTime: 'Same Day', fastingRequired: true, isAvailable: true },
+  { id: 'test-021', slNo: 21, code: 'SS1', name: 'S.S - 1', fullName: 'Special Screening Package 1 (Basic Health)', category: 'Special Profiles', price: 1000, sampleType: 'Blood & Urine', turnaroundTime: 'Same Day', fastingRequired: true, isAvailable: true },
+  { id: 'test-022', slNo: 22, code: 'SS3', name: 'S.S - 3', fullName: 'Special Screening Package 3 (Comprehensive)', category: 'Special Profiles', price: 1900, sampleType: 'Blood & Urine', turnaroundTime: 'Same Day', fastingRequired: true, isAvailable: true },
+  { id: 'test-023', slNo: 23, code: 'SS4', name: 'S.S - 4', fullName: 'Special Screening Package 4 (Executive Master)', category: 'Special Profiles', price: 2400, sampleType: 'Blood & Urine', turnaroundTime: 'Same Day', fastingRequired: true, isAvailable: true },
+  { id: 'test-024', slNo: 24, code: 'UREA', name: 'UREA', fullName: 'Blood Urea / BUN', category: 'Biochemistry', price: 100, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-025', slNo: 25, code: 'CREATINE', name: 'CREATINE', fullName: 'Serum Creatinine (Renal Marker)', category: 'Biochemistry', price: 100, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-026', slNo: 26, code: 'URICACID', name: 'URIC ACID', fullName: 'Serum Uric Acid (Gout & Joint Health)', category: 'Biochemistry', price: 150, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  // Note: 27 and 28 missing on original image
+  { id: 'test-029', slNo: 29, code: 'SGPT', name: 'SGPT', fullName: 'Serum Glutamic Pyruvic Transaminase (ALT)', category: 'Biochemistry', price: 150, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-030', slNo: 30, code: 'SGOT', name: 'SGOT', fullName: 'Serum Glutamic Oxaloacetic Transaminase (AST)', category: 'Biochemistry', price: 150, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-031', slNo: 31, code: 'BILRUBIN', name: 'BILRUBIN', fullName: 'Total, Direct & Indirect Bilirubin', category: 'Biochemistry', price: 150, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-032', slNo: 32, code: 'URINERE', name: 'URINE R/E', fullName: 'Urine Routine & Microscopic Examination', category: 'Fluid Analysis', price: 100, sampleType: 'Fresh Midstream Urine', turnaroundTime: '1-2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-033', slNo: 33, code: 'URINECS', name: 'URINE C/S', fullName: 'Urine Culture & Antibiotic Sensitivity (Aerobic)', category: 'Fluid Analysis', price: 200, sampleType: 'Sterile Midstream Urine', turnaroundTime: '48-72 hrs', fastingRequired: false, isAvailable: true },
+
+  // Right Column from Price List Image
+  { id: 'test-036', slNo: 36, code: 'BSF', name: 'BSF', fullName: 'Blood Sugar Fasting (8-10 hrs Fasting)', category: 'Biochemistry', price: 50, sampleType: 'Fluoride Plasma', turnaroundTime: '1-2 hrs', fastingRequired: true, isAvailable: true },
+  { id: 'test-037', slNo: 37, code: 'BSPP', name: 'BSPP', fullName: 'Blood Sugar Post Prandial (2 hrs post meal)', category: 'Biochemistry', price: 50, sampleType: 'Fluoride Plasma', turnaroundTime: '1-2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-038', slNo: 38, code: 'BSR', name: 'BSR', fullName: 'Blood Sugar Random (Anytime Glucose)', category: 'Biochemistry', price: 50, sampleType: 'Fluoride Plasma', turnaroundTime: 'Instant (15 mins)', fastingRequired: false, isAvailable: true },
+  { id: 'test-039', slNo: 39, code: 'ESR', name: 'ESR', fullName: 'Erythrocyte Sedimentation Rate (Westergren)', category: 'Haematology', price: 100, sampleType: 'Citrated Blood', turnaroundTime: '2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-040', slNo: 40, code: 'CPR', name: 'CPR', fullName: 'C-Reactive Protein (CRP Quantitative / Inflammation)', category: 'Immunology', price: 250, sampleType: 'Serum', turnaroundTime: '3-4 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-041', slNo: 41, code: 'RAFACTOR', name: 'RA FACTOR', fullName: 'Rheumatoid Arthritis Factor (Quantitative)', category: 'Immunology', price: 200, sampleType: 'Serum', turnaroundTime: '3-4 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-042', slNo: 42, code: 'ASOTITER', name: 'ASO TITER', fullName: 'Anti-Streptolysin O (ASO) Titer', category: 'Immunology', price: 200, sampleType: 'Serum', turnaroundTime: '3-4 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-043', slNo: 43, code: 'VITAMIND', name: 'VITAMIN D', fullName: '25-Hydroxy Vitamin D (Total D2 + D3)', category: 'Biochemistry', price: 1200, sampleType: 'Serum', turnaroundTime: 'Same Day (6 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-044', slNo: 44, code: 'VITAMINB12', name: 'VITAMIN B12', fullName: 'Cyanocobalamin / Active Vitamin B12', category: 'Biochemistry', price: 1000, sampleType: 'Serum', turnaroundTime: 'Same Day (6 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-045', slNo: 45, code: 'IRONPROFILE', name: 'IRON PROFILE', fullName: 'Complete Iron Profile (Serum Iron, TIBC, % Saturation)', category: 'Biochemistry', price: 700, sampleType: 'Serum', turnaroundTime: 'Same Day (6 hrs)', fastingRequired: true, isAvailable: true },
+  { id: 'test-046', slNo: 46, code: 'TORCH10', name: 'TORCH 10', fullName: 'TORCH Profile 10 Parameters (IgG & IgM Panel)', category: 'Serology', price: 2700, sampleType: 'Serum', turnaroundTime: '24-48 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-047', slNo: 47, code: 'FNAC', name: 'FNAC', fullName: 'Fine Needle Aspiration Cytology (Palpable Swelling)', category: 'FNAC', price: 1600, sampleType: 'Cytology Aspirate', turnaroundTime: '24-48 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-048', slNo: 48, code: 'BIOPSY', name: 'BIOPSY', fullName: 'Histopathology Biopsy (Small/Medium Tissue)', category: 'Histopathology', price: 1400, sampleType: 'Formalin Tissue', turnaroundTime: '3-5 Days', fastingRequired: false, isAvailable: true },
+  { id: 'test-049', slNo: 49, code: 'WIDAL', name: 'WIDAL', fullName: 'Widal Agglutination Slide / Tube Test', category: 'Serology', price: 200, sampleType: 'Serum', turnaroundTime: '2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-050', slNo: 50, code: 'MALARIA', name: 'MALARIA', fullName: 'Malaria Antigen Card & Smear Examination (MP)', category: 'Serology', price: 250, sampleType: 'EDTA Whole Blood', turnaroundTime: '1 hr', fastingRequired: false, isAvailable: true },
+  { id: 'test-051', slNo: 51, code: 'TYPHOID', name: 'TYPHOID', fullName: 'Typhoid IgM / IgG (Typhi Dot Rapid)', category: 'Serology', price: 150, sampleType: 'Serum', turnaroundTime: '1-2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-052', slNo: 52, code: 'AFBSPUTUM', name: 'AFB(SPOTUM)', fullName: 'Acid Fast Bacilli Stain (Sputum for TB Examination)', category: 'Serology', price: 300, sampleType: 'Early Morning Sputum', turnaroundTime: 'Same Day (4 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-053', slNo: 53, code: 'PBS', name: 'PBS', fullName: 'Peripheral Blood Smear Examination (Cell Morphology)', category: 'Haematology', price: 300, sampleType: 'EDTA Blood Slide', turnaroundTime: '3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-054', slNo: 54, code: 'FALERIA', name: 'FALERIA', fullName: 'Filariasis Antigen / Microfilaria Nocturnal Smear', category: 'Serology', price: 900, sampleType: 'Night Blood Specimen', turnaroundTime: 'Same Day', fastingRequired: false, isAvailable: true },
+  { id: 'test-055', slNo: 55, code: 'FRETTIN', name: 'FRETTIN', fullName: 'Serum Ferritin (Iron Storage Reserve)', category: 'Biochemistry', price: 500, sampleType: 'Serum', turnaroundTime: '4 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-056', slNo: 56, code: 'STOOLRE', name: 'STOOL R/E', fullName: 'Stool Routine & Microscopic Examination (Ova/Cyst)', category: 'Fluid Analysis', price: 150, sampleType: 'Fresh Stool Specimen', turnaroundTime: '2 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-057', slNo: 57, code: 'STOOLCS', name: 'STOOL C/S', fullName: 'Stool Culture & Sensitivity (Enteric Pathogens)', category: 'Fluid Analysis', price: 300, sampleType: 'Sterile Stool Specimen', turnaroundTime: '48-72 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-058', slNo: 58, code: 'ADA', name: 'ADA', fullName: 'Adenosine Deaminase Activity (Pleural/Ascitic/CSF)', category: 'Fluid Analysis', price: 900, sampleType: 'Body Fluid / Serum', turnaroundTime: '24 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-059', slNo: 59, code: 'TBGOLD', name: 'TB GOLD', fullName: 'Interferon Gamma Release Assay (TB Gold / IGRA)', category: 'Serology', price: 3100, sampleType: 'Special Heparinized Blood', turnaroundTime: '48-72 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-060', slNo: 60, code: 'CALCIUM', name: 'CALCIUM', fullName: 'Total Serum Calcium & Corrected Calcium', category: 'Biochemistry', price: 200, sampleType: 'Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-061', slNo: 61, code: 'PAPHPV', name: 'PAP HPV', fullName: 'Liquid-Based Cervical Cytology with High-Risk HPV DNA', category: 'Histopathology', price: 2500, sampleType: 'Liquid-Based Pap Vial', turnaroundTime: '3-5 Days', fastingRequired: false, isAvailable: true },
+  { id: 'test-062', slNo: 62, code: 'PAPSAMER', name: 'PAP SAMER', fullName: 'Conventional Pap Smear Cervical Cytology', category: 'Histopathology', price: 1900, sampleType: 'Cervical / Vaginal Smear', turnaroundTime: '48 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-063', slNo: 63, code: 'ELECTROLYTE', name: 'ELECTROLYTE', fullName: 'Serum Electrolytes (Sodium, Potassium, Chloride)', category: 'Biochemistry', price: 600, sampleType: 'Plain Serum', turnaroundTime: '2-3 hrs', fastingRequired: false, isAvailable: true },
+  { id: 'test-064', slNo: 64, code: 'IGETOTAL', name: 'IGE TOTAL', fullName: 'Total Serum Immunoglobulin E (Allergy Marker)', category: 'Immunology', price: 1200, sampleType: 'Serum', turnaroundTime: 'Same Day (6 hrs)', fastingRequired: false, isAvailable: true },
+  { id: 'test-065', slNo: 65, code: 'MTMONTEX', name: 'MT(MONTEX)', fullName: 'Mantoux Tuberculin Skin Test (5 TU PPD)', category: 'Serology', price: 300, sampleType: 'Intradermal PPD Injection', turnaroundTime: '48-72 hrs Reading', fastingRequired: false, isAvailable: true },
+  { id: 'test-066', slNo: 66, code: 'HBSAGDNA', name: 'HBsAG DNA', fullName: 'Hepatitis B Quantitative Real-Time PCR (Viral Load)', category: 'Serology', price: 6500, sampleType: 'EDTA Plasma', turnaroundTime: '3-5 Days', fastingRequired: false, isAvailable: true },
+];
+

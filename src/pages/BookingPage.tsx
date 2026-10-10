@@ -14,9 +14,13 @@ import {
   Navigation,
   FileText,
   Lock,
+  Search,
+  Droplet,
+  Sparkles,
+  Building2,
 } from 'lucide-react';
 import { dbService } from '../services/db';
-import { Service, Booking, Address, Patient } from '../types';
+import { Service, Booking, Address, Patient, LabTest } from '../types';
 import { useAuth } from '../features/auth/AuthContext';
 import { paymentService } from '../features/payments/paymentService';
 
@@ -31,7 +35,11 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
 
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [services, setServices] = useState<Service[]>([]);
+  const [labTests, setLabTests] = useState<LabTest[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [catalogTab, setCatalogTab] = useState<'lab_tests' | 'packages'>('lab_tests');
+  const [testQuery, setTestQuery] = useState<string>('');
+  const [testCat, setTestCat] = useState<string>('All');
 
   // Existing bookings to verify slot double-booking
   const [existingBookings, setExistingBookings] = useState<Booking[]>([]);
@@ -41,22 +49,22 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
     fullName: currentUser?.fullName || 'Rajesh Verma',
     age: 48,
     gender: 'male' as 'male' | 'female' | 'other',
-    phone: currentUser?.phone || '+91 98765 43210',
+    phone: currentUser?.phone || '+91 62061 75583',
     email: currentUser?.email || 'rajesh.verma@example.com',
-    emergencyContact: '+91 98765 43219 (Wife: Sunita)',
-    medicalNotes: 'Type-2 Diabetes under routine Metformin.',
+    emergencyContact: '+91 62994 76228 (Family Member)',
+    medicalNotes: 'Routine diagnostic testing at home.',
   });
 
-  // Step 3: Address
+  // Step 3: Address (Defaulted to Trust Patho Lab primary operational area in Gaya, Bihar)
   const [address, setAddress] = useState<Address>({
-    houseFlat: 'Flat 402, Greenfield Meadows',
-    street: '14th Cross Road',
-    area: 'Indira Nagar',
-    city: 'Bangalore',
-    state: 'Karnataka',
-    pinCode: '560038',
-    landmark: 'Near BDA Complex & Cafe Coffee Day',
-    instructions: 'Ring bell twice; lift available on the left.',
+    houseFlat: '',
+    street: 'Gaya Patna Road',
+    area: 'Iqbal Nagar',
+    city: 'Gaya',
+    state: 'Bihar',
+    pinCode: '823002',
+    landmark: 'Near Karbala',
+    instructions: 'Doorstep sample collection requested.',
   });
 
   // Step 4: Date & Slot
@@ -85,23 +93,77 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
     '06:00 PM - 07:00 PM',
   ];
 
-  // Fetch Services & Bookings
+  const testToService = (t: LabTest): Service => ({
+    id: `test-${t.id}`,
+    name: `${t.name} — ${t.fullName}`,
+    category: `Lab Test (${t.category})`,
+    description: `Official Pathology Test: ${t.name}. Specimen: ${t.sampleType}. Turnaround: ${t.turnaroundTime}. Fasting: ${t.fastingRequired ? 'Required (8-12 hrs)' : 'Not mandatory'}. Conducted by Trust Patho Lab with sterile doorstep sample collection.`,
+    inclusions: [
+      'Sterile Vacutainer Collection at Doorstep',
+      'Barcode Verified Cold-Chain Handling',
+      'Certified Medical Technologist Visit',
+      'Digital Signed PDF Report via WhatsApp & Email',
+      'Clinical Pathologist Opinion',
+    ],
+    durationMinutes: 20,
+    price: t.price,
+    preparationInstructions: t.preparationInstructions
+      ? [t.preparationInstructions]
+      : ['Maintain normal hydration prior to sample draw.'],
+    popular: false,
+    isActive: true,
+    imageUrl:
+      'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80',
+  });
+
+  // Fetch Services, Tests & Bookings
   useEffect(() => {
     const init = async () => {
       try {
-        const [loadedServices, loadedBookings] = await Promise.all([
+        const [loadedServices, loadedBookings, loadedTests] = await Promise.all([
           dbService.getServices(),
           dbService.getBookings(),
+          dbService.getLabTests(),
         ]);
-        setServices(loadedServices.filter((s) => s.isActive));
+        const activeServices = loadedServices.filter((s) => s.isActive);
+        setServices(activeServices);
+        setLabTests(loadedTests);
         setExistingBookings(loadedBookings);
 
+        const urlTestId = searchParams.get('testId');
+        const urlTestName = searchParams.get('testName');
         const urlServiceId = searchParams.get('serviceId');
+
+        if (urlTestId || urlTestName) {
+          const matchTest = loadedTests.find(
+            (t) =>
+              t.id === urlTestId ||
+              String(t.slNo) === urlTestId ||
+              (urlTestName && t.name.toLowerCase() === decodeURIComponent(urlTestName).toLowerCase())
+          );
+          if (matchTest) {
+            setSelectedService(testToService(matchTest));
+            setCatalogTab('lab_tests');
+            return;
+          }
+        }
+
         if (urlServiceId) {
-          const match = loadedServices.find((s) => s.id === urlServiceId);
-          if (match) setSelectedService(match);
-        } else if (loadedServices.length > 0) {
-          setSelectedService(loadedServices[0]);
+          const matchService = activeServices.find((s) => s.id === urlServiceId);
+          if (matchService) {
+            setSelectedService(matchService);
+            setCatalogTab('packages');
+            return;
+          }
+        }
+
+        // Default to first test if available, or first service
+        if (loadedTests.length > 0) {
+          setSelectedService(testToService(loadedTests[0]));
+          setCatalogTab('lab_tests');
+        } else if (activeServices.length > 0) {
+          setSelectedService(activeServices[0]);
+          setCatalogTab('packages');
         }
       } catch (err) {
         console.error('Failed to load services for booking wizard:', err);
@@ -369,56 +431,207 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
 
         {/* Wizard Step Containers */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
-          {/* STEP 1: SELECT SERVICE */}
+          {/* STEP 1: SELECT SERVICE OR LAB TEST */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-900">Step 1 — Choose Healthcare Service</h3>
+                <h3 className="text-xl font-bold text-slate-900">Step 1 — Choose Test or Health Checkup</h3>
                 <p className="text-xs text-slate-500 mt-1">
-                  Select the checkup or clinical procedure to be performed at your home.
+                  Select an individual diagnostic laboratory test from our official rate schedule or a comprehensive home checkup package.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {services.map((s) => {
-                  const isSelected = selectedService?.id === s.id;
-                  return (
-                    <div
-                      key={s.id}
-                      onClick={() => setSelectedService(s)}
-                      className={`p-4 rounded-2xl border-2 transition cursor-pointer flex flex-col justify-between ${
-                        isSelected
-                          ? 'border-brand-600 bg-brand-50/40 ring-1 ring-brand-500'
-                          : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full border border-brand-200">
-                            {s.category}
-                          </span>
-                          <span className="text-xs text-slate-500 flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {s.durationMinutes}m
-                          </span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm">{s.name}</h4>
-                        <p className="text-xs text-slate-500 mt-1 line-clamp-2">{s.description}</p>
-                      </div>
-                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <span className="text-base font-extrabold text-slate-900">₹{s.price}</span>
-                        <span
-                          className={`text-xs font-bold ${
-                            isSelected ? 'text-brand-700' : 'text-slate-400'
+              {/* Catalog Switcher */}
+              <div className="flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setCatalogTab('lab_tests')}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+                    catalogTab === 'lab_tests'
+                      ? 'bg-purple-900 text-amber-300 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Droplet className="w-3.5 h-3.5 text-amber-400" />
+                  Pathology Diagnostic Tests ({labTests.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCatalogTab('packages')}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+                    catalogTab === 'packages'
+                      ? 'bg-purple-900 text-amber-300 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  Health Checkup Packages ({services.length})
+                </button>
+              </div>
+
+              {/* Current Selection Summary Box */}
+              {selectedService && (
+                <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 block">
+                      Currently Selected
+                    </span>
+                    <h4 className="font-bold text-slate-900 text-sm mt-0.5">{selectedService.name}</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">{selectedService.category}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <span className="text-xs text-slate-400 block">Total Rate</span>
+                      <span className="text-xl font-black text-purple-950">₹{selectedService.price}</span>
+                    </div>
+                    <span className="px-3 py-1.5 rounded-xl bg-purple-700 text-amber-300 font-bold text-xs">
+                      Selected ✓
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 1: LAB TESTS CATALOG */}
+              {catalogTab === 'lab_tests' && (
+                <div className="space-y-4">
+                  {/* Search and Category Filter */}
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="relative flex-1">
+                      <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="Search 62 tests (e.g. CBC, LFT, KFT, HBA1C, Thyroid, Sugar, Biopsy)..."
+                        value={testQuery}
+                        onChange={(e) => setTestQuery(e.target.value)}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-purple-700 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category Pills */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                    {['All', 'Haematology', 'Serology', 'Biochemistry', 'Hormones', 'Fluid Analysis', 'Histopathology', 'Immunology', 'FNAC'].map(
+                      (cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => setTestCat(cat)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                            testCat === cat
+                              ? 'bg-purple-900 text-amber-300 shadow-xs'
+                              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                           }`}
                         >
-                          {isSelected ? '✓ Selected' : 'Select'}
-                        </span>
+                          {cat}
+                        </button>
+                      )
+                    )}
+                  </div>
+
+                  {/* Tests Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[440px] overflow-y-auto pr-1">
+                    {labTests
+                      .filter((t) => {
+                        const matchesCat = testCat === 'All' || t.category === testCat;
+                        const q = testQuery.trim().toLowerCase();
+                        const matchesQ =
+                          !q ||
+                          t.name.toLowerCase().includes(q) ||
+                          t.fullName.toLowerCase().includes(q) ||
+                          t.code.toLowerCase().includes(q) ||
+                          String(t.slNo).includes(q);
+                        return matchesCat && matchesQ;
+                      })
+                      .map((t) => {
+                        const isSelected = selectedService?.id === `test-${t.id}`;
+                        return (
+                          <div
+                            key={t.id}
+                            onClick={() => setSelectedService(testToService(t))}
+                            className={`p-3.5 rounded-2xl border-2 transition cursor-pointer flex flex-col justify-between ${
+                              isSelected
+                                ? 'border-purple-700 bg-purple-50/50 ring-1 ring-purple-600 shadow-xs'
+                                : 'border-slate-200 hover:border-purple-300 hover:bg-slate-50/50'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex items-center justify-between mb-1.5">
+                                <span className="text-[10px] font-bold text-slate-400 font-mono">
+                                  #{t.slNo} • {t.code}
+                                </span>
+                                <span className="text-[10px] font-semibold text-purple-800 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                                  {t.category}
+                                </span>
+                              </div>
+                              <h4 className="font-bold text-slate-900 text-sm leading-snug">{t.name}</h4>
+                              <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{t.fullName}</p>
+                              <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-2">
+                                <span>Specimen: {t.sampleType}</span>
+                                <span>•</span>
+                                <span>TAT: {t.turnaroundTime}</span>
+                              </div>
+                            </div>
+
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+                              <span className="text-base font-black text-slate-900">₹{t.price}</span>
+                              <span
+                                className={`text-xs font-bold ${
+                                  isSelected ? 'text-purple-700' : 'text-slate-400'
+                                }`}
+                              >
+                                {isSelected ? '✓ Selected' : 'Select'}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: PACKAGES */}
+              {catalogTab === 'packages' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {services.map((s) => {
+                    const isSelected = selectedService?.id === s.id;
+                    return (
+                      <div
+                        key={s.id}
+                        onClick={() => setSelectedService(s)}
+                        className={`p-4 rounded-2xl border-2 transition cursor-pointer flex flex-col justify-between ${
+                          isSelected
+                            ? 'border-purple-700 bg-purple-50/40 ring-1 ring-purple-600'
+                            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                              {s.category}
+                            </span>
+                            <span className="text-xs text-slate-500 flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {s.durationMinutes}m
+                            </span>
+                          </div>
+                          <h4 className="font-bold text-slate-900 text-sm">{s.name}</h4>
+                          <p className="text-xs text-slate-500 mt-1 line-clamp-2">{s.description}</p>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                          <span className="text-base font-extrabold text-slate-900">₹{s.price}</span>
+                          <span
+                            className={`text-xs font-bold ${
+                              isSelected ? 'text-purple-700' : 'text-slate-400'
+                            }`}
+                          >
+                            {isSelected ? '✓ Selected' : 'Select'}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
@@ -555,17 +768,54 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Step 3 — Doorstep Address</h3>
                   <p className="text-xs text-slate-500 mt-1">
-                    Where should the healthcare professional visit?
+                    Where should the Trust Patho Lab phlebotomist visit for sample collection?
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleAutoLocation}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-semibold border border-brand-200 transition"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-semibold border border-purple-200 transition"
                 >
                   <Navigation className="w-3.5 h-3.5" />
                   Auto-Detect GPS Landmark
                 </button>
+              </div>
+
+              {/* Gaya Area Quick Preset Buttons */}
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-2">
+                <span className="text-[11px] font-bold text-purple-900 flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5 text-purple-700" />
+                  Trust Patho Lab Gaya Primary Service Zones (Click to autofill):
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { area: 'Iqbal Nagar', street: 'Gaya Patna Road', landmark: 'Near Karbala', pin: '823002' },
+                    { area: 'Civil Lines', street: 'Kashinath More', landmark: 'Near Collectorate', pin: '823001' },
+                    { area: 'AP Colony', street: 'Main Road', landmark: 'Near Medical College Road', pin: '823001' },
+                    { area: 'Bodh Gaya', street: 'Temple Road', landmark: 'Near Mahabodhi Precinct', pin: '824231' },
+                    { area: 'Rampur / Delha', street: 'Station Road', landmark: 'Near Railway Station', pin: '823002' },
+                    { area: 'Gaya Patna Road', street: 'NH 83 Highway Bypass', landmark: 'Near Bypass Checkpost', pin: '823002' },
+                  ].map((zone) => (
+                    <button
+                      key={zone.area}
+                      type="button"
+                      onClick={() =>
+                        setAddress((prev) => ({
+                          ...prev,
+                          area: zone.area,
+                          street: zone.street,
+                          landmark: zone.landmark,
+                          city: 'Gaya',
+                          state: 'Bihar',
+                          pinCode: zone.pin,
+                        }))
+                      }
+                      className="px-2.5 py-1 rounded-lg bg-white border border-purple-200 hover:bg-purple-100 text-purple-900 text-xs font-semibold transition shadow-xs"
+                    >
+                      {zone.area} ({zone.pin})
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -578,8 +828,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     required
                     value={address.houseFlat}
                     onChange={(e) => setAddress({ ...address, houseFlat: e.target.value })}
-                    placeholder="e.g. Flat 402, Greenfield Meadows"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. House No. 24, Near Masjid"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 
@@ -592,8 +842,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     required
                     value={address.street}
                     onChange={(e) => setAddress({ ...address, street: e.target.value })}
-                    placeholder="e.g. 14th Cross Road"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. Gaya Patna Road"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 
@@ -606,8 +856,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     required
                     value={address.area}
                     onChange={(e) => setAddress({ ...address, area: e.target.value })}
-                    placeholder="e.g. Indira Nagar"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. Iqbal Nagar"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 
@@ -618,8 +868,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     required
                     value={address.city}
                     onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                    placeholder="e.g. Bangalore"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. Gaya"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 
@@ -630,8 +880,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     required
                     value={address.state}
                     onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                    placeholder="e.g. Karnataka"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. Bihar"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 
@@ -643,8 +893,8 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
                     maxLength={6}
                     value={address.pinCode}
                     onChange={(e) => setAddress({ ...address, pinCode: e.target.value })}
-                    placeholder="e.g. 560038"
-                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none"
+                    placeholder="e.g. 823002"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none"
                   />
                 </div>
 

@@ -29,20 +29,27 @@ import {
   Service,
   BookingStatus,
   ProfessionalRole,
+  LabTest,
 } from '../../types';
 
 export const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'bookings' | 'professionals' | 'services' | 'patients' | 'reports'>('bookings');
+  const [activeTab, setActiveTab] = useState<'bookings' | 'professionals' | 'services' | 'test_prices' | 'patients' | 'reports'>('bookings');
 
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  const [labTests, setLabTests] = useState<LabTest[]>([]);
+  const [testSearch, setTestSearch] = useState('');
+  const [testCategoryFilter, setTestCategoryFilter] = useState('All');
+  const [editingTestPrice, setEditingTestPrice] = useState<{ id: string; price: number } | null>(null);
+  const [priceUpdateSuccess, setPriceUpdateSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Search & Filters
   const [bookingSearch, setBookingSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
 
   // Modal: Assign Professional
   const [assignModalBooking, setAssignModalBooking] = useState<Booking | null>(null);
@@ -79,22 +86,36 @@ export const AdminDashboard: React.FC = () => {
 
   const loadAllData = async () => {
     try {
-      const [allB, allP, allPat, allS] = await Promise.all([
+      const [allB, allP, allPat, allS, allTests] = await Promise.all([
         dbService.getBookings(),
         dbService.getProfessionals(),
         dbService.getPatients(),
         dbService.getServices(),
+        dbService.getLabTests(),
       ]);
       setBookings(allB);
       setProfessionals(allP);
       setPatients(allPat);
       setServices(allS);
+      setLabTests(allTests);
     } catch (err) {
       console.error('Failed to load admin data:', err);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleSaveTestPrice = async (testId: string, newPrice: number) => {
+    const ok = await dbService.updateLabTestPrice(testId, newPrice);
+    if (ok) {
+      setPriceUpdateSuccess(`Price updated to ₹${newPrice} successfully in database!`);
+      const updated = await dbService.getLabTests();
+      setLabTests(updated);
+      setEditingTestPrice(null);
+      setTimeout(() => setPriceUpdateSuccess(null), 3500);
+    }
+  };
+
 
   useEffect(() => {
     loadAllData();
@@ -125,6 +146,20 @@ export const AdminDashboard: React.FC = () => {
       b.serviceName.toLowerCase().includes(bookingSearch.toLowerCase()) ||
       b.address.city.toLowerCase().includes(bookingSearch.toLowerCase());
     return matchesStatus && matchesSearch;
+  });
+
+  // Filtered Lab Tests for Rate Master Tab
+  const testCategories: string[] = ['All', ...Array.from(new Set(labTests.map((t) => t.category)))];
+  const filteredLabTests = labTests.filter((t) => {
+    const matchesCat = testCategoryFilter === 'All' || t.category === testCategoryFilter;
+    const q = testSearch.trim().toLowerCase();
+    const matchesSearch =
+      !q ||
+      t.name.toLowerCase().includes(q) ||
+      t.fullName.toLowerCase().includes(q) ||
+      t.code.toLowerCase().includes(q) ||
+      String(t.slNo).includes(q);
+    return matchesCat && matchesSearch;
   });
 
   // Handle Assign Clinician
@@ -301,7 +336,8 @@ export const AdminDashboard: React.FC = () => {
           {[
             { id: 'bookings', label: `Bookings & Dispatch (${bookings.length})` },
             { id: 'professionals', label: `Clinicians (${professionals.length})` },
-            { id: 'services', label: `Service Catalog (${services.length})` },
+            { id: 'test_prices', label: `Lab Tests & Pricing (${labTests.length})` },
+            { id: 'services', label: `Home Packages (${services.length})` },
             { id: 'patients', label: `Patient Registry (${patients.length})` },
             { id: 'reports', label: 'Financial & Analytics' },
           ].map((tab) => (
@@ -676,6 +712,201 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: LAB TEST PRICE MANAGEMENT */}
+        {activeTab === 'test_prices' && (
+          <div className="space-y-4">
+            {/* Success Alert Banner */}
+            {priceUpdateSuccess && (
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-xs">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  <span className="text-sm font-semibold">{priceUpdateSuccess}</span>
+                </div>
+                <button
+                  onClick={() => setPriceUpdateSuccess(null)}
+                  className="text-emerald-700 hover:text-emerald-950 text-xs font-bold"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+
+            {/* Header & Stats Banner */}
+            <div className="bg-gradient-to-r from-purple-950 via-slate-900 to-black p-6 rounded-3xl text-white shadow-md border border-purple-800/40 relative overflow-hidden">
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold mb-2">
+                    <Activity className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Official 62-Item Pathology Price Schedule</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white">
+                    Pathology Laboratory Rate Master
+                  </h3>
+                  <p className="text-xs sm:text-sm text-purple-200 mt-1 max-w-2xl">
+                    Configure official diagnostic test rates in real-time. Edits are persisted securely with parameterised database queries and update all patient booking calculations instantaneously.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-center">
+                    <span className="text-[10px] text-purple-200 uppercase tracking-wider block">Total Catalog</span>
+                    <span className="text-xl font-black text-amber-400">{labTests.length} Tests</span>
+                  </div>
+                  <div className="px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-center">
+                    <span className="text-[10px] text-purple-200 uppercase tracking-wider block">Price Range</span>
+                    <span className="text-xl font-black text-white">
+                      ₹{labTests.length ? Math.min(...labTests.map(t => t.price)) : 0} - ₹{labTests.length ? Math.max(...labTests.map(t => t.price)) : 0}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Filter & Search Toolbar */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="relative w-full sm:w-96">
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search test name (CBC, L.F.T, HBA1C), code, or Sl. No..."
+                    value={testSearch}
+                    onChange={(e) => setTestSearch(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-700 focus:outline-none"
+                  />
+                  {testSearch && (
+                    <button
+                      onClick={() => setTestSearch('')}
+                      className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="text-xs font-semibold text-slate-500">
+                  Showing <span className="text-purple-900 font-bold">{filteredLabTests.length}</span> of {labTests.length} tests
+                </div>
+              </div>
+
+              {/* Category Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                {testCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setTestCategoryFilter(cat)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                      testCategoryFilter === cat
+                        ? 'bg-purple-900 text-amber-300 shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Table */}
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                    <tr>
+                      <th className="p-4 w-16 text-center">Sl No</th>
+                      <th className="p-4">Official Test Name</th>
+                      <th className="p-4">Category</th>
+                      <th className="p-4">Sample / Specimen</th>
+                      <th className="p-4">Turnaround</th>
+                      <th className="p-4 text-right">Official Rate</th>
+                      <th className="p-4 text-right w-52">Configure Price</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    {filteredLabTests.map((t) => {
+                      const isEditing = editingTestPrice?.id === t.id;
+                      return (
+                        <tr key={t.id} className="hover:bg-purple-50/40 transition">
+                          <td className="p-4 text-center font-mono font-bold text-slate-400">
+                            #{t.slNo}
+                          </td>
+                          <td className="p-4">
+                            <div className="font-bold text-slate-900 text-sm">{t.name}</div>
+                            <div className="text-[11px] text-slate-500 line-clamp-1">{t.fullName}</div>
+                            <div className="text-[10px] font-mono text-purple-700 mt-0.5">{t.code}</div>
+                          </td>
+                          <td className="p-4">
+                            <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-800 border border-purple-200">
+                              {t.category}
+                            </span>
+                          </td>
+                          <td className="p-4 text-slate-600">{t.sampleType}</td>
+                          <td className="p-4 text-slate-600 font-medium">{t.turnaroundTime}</td>
+                          <td className="p-4 text-right">
+                            <span className="text-base font-black text-slate-900">
+                              ₹{t.price}
+                            </span>
+                          </td>
+                          <td className="p-4 text-right">
+                            {isEditing ? (
+                              <div className="flex items-center justify-end gap-1.5">
+                                <span className="text-xs font-bold text-slate-500">₹</span>
+                                <input
+                                  type="number"
+                                  min={10}
+                                  max={50000}
+                                  value={editingTestPrice.price}
+                                  onChange={(e) =>
+                                    setEditingTestPrice({
+                                      id: t.id,
+                                      price: Math.max(1, Number(e.target.value)),
+                                    })
+                                  }
+                                  className="w-20 px-2 py-1 rounded-lg border border-purple-400 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                  autoFocus
+                                />
+                                <button
+                                  onClick={() => handleSaveTestPrice(t.id, editingTestPrice.price)}
+                                  className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setEditingTestPrice(null)}
+                                  className="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs transition"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() =>
+                                  setEditingTestPrice({ id: t.id, price: t.price })
+                                }
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-100 text-purple-900 font-bold text-xs transition border border-slate-200 hover:border-purple-300"
+                              >
+                                <Edit className="w-3 h-3 text-purple-700" />
+                                Edit Price
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+
+                    {filteredLabTests.length === 0 && (
+                      <tr>
+                        <td colSpan={7} className="p-8 text-center text-slate-400 text-xs">
+                          No diagnostic tests found matching "{testSearch}".
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

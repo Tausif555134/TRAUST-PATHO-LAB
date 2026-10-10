@@ -16,7 +16,10 @@ dist-ssr/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-*.log
+# Local Databases
+*.sqlite
+*.sqlite-journal
+*.db
 
 # Editor / OS metadata
 .DS_Store

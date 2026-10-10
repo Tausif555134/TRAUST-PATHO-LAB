@@ -7,6 +7,8 @@ import {
   MedicalReport,
   Review,
   Notification,
+  LabTest,
+  LabInfo,
 } from '../types';
 import {
   initialServices,
@@ -15,6 +17,8 @@ import {
   initialBookings,
   initialReports,
   initialReviews,
+  initialLabTests,
+  officialLabInfo,
 } from './mockData';
 
 // Frontend storage keys
@@ -26,7 +30,10 @@ const STORAGE_KEYS = {
   REPORTS: 'trust_patho_lab_reports_v1',
   REVIEWS: 'trust_patho_lab_reviews_v1',
   NOTIFICATIONS: 'trust_patho_lab_notifications_v1',
+  LAB_TESTS: 'trust_patho_lab_tests_v1',
+  LAB_INFO: 'trust_patho_lab_info_v1',
 };
+
 
 // Dispatch frontend storage updates event for UI reactivity
 const DB_CHANGE_EVENT = 'trust_patho_lab_frontend_change';
@@ -368,4 +375,152 @@ export const dbService = {
       setLocal(STORAGE_KEYS.NOTIFICATIONS, current);
     }
   },
+
+  // --------------------------------------------------------------------------
+  // TRUST PATHO LAB: OFFICIAL TEST PRICE LIST (62 TESTS FROM PRICE LIST IMAGE)
+  // --------------------------------------------------------------------------
+  async fetchCsrfToken(): Promise<string | null> {
+    try {
+      const res = await fetch('/api/csrf-token');
+      if (res.ok) {
+        const data = await res.json();
+        return data.csrfToken;
+      }
+    } catch {
+      // Backend offline / standalone client fallback
+    }
+    return null;
+  },
+
+  async getLabInfo(): Promise<LabInfo> {
+    try {
+      const res = await fetch('/api/lab-info');
+      if (res.ok) {
+        const info = await res.json();
+        return {
+          name: info.name || officialLabInfo.name,
+          subtitle: info.subtitle || officialLabInfo.subtitle,
+          registrationNo: info.registration_no || officialLabInfo.registrationNo,
+          address: info.address || officialLabInfo.address,
+          phones: info.phones ? info.phones.split(',').map((p: string) => p.trim()) : officialLabInfo.phones,
+          whatsapp: info.whatsapp || officialLabInfo.whatsapp,
+          established: info.established || officialLabInfo.established,
+          services: info.services ? info.services.split(',').map((s: string) => s.trim()) : officialLabInfo.services,
+          features: officialLabInfo.features,
+          disclaimer: info.disclaimer || officialLabInfo.disclaimer,
+        };
+      }
+    } catch {
+      // Fallback to official lab info
+    }
+    return getLocal<LabInfo>(STORAGE_KEYS.LAB_INFO, officialLabInfo);
+  },
+
+  async getLabTests(params?: {
+    search?: string;
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }): Promise<LabTest[]> {
+    // Try live server API first
+    try {
+      const q = new URLSearchParams();
+      if (params?.search) q.append('search', params.search);
+      if (params?.category && params.category !== 'All') q.append('category', params.category);
+      if (params?.minPrice !== undefined) q.append('minPrice', String(params.minPrice));
+      if (params?.maxPrice !== undefined) q.append('maxPrice', String(params.maxPrice));
+
+      const res = await fetch(`/api/tests?${q.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.tests) && data.tests.length > 0) {
+          // Sync with local storage
+          const mapped: LabTest[] = data.tests.map((t: any) => ({
+            id: t.id,
+            slNo: t.sl_no,
+            code: t.code,
+            name: t.name,
+            fullName: t.full_name,
+            category: t.category,
+            price: t.price,
+            sampleType: t.sample_type,
+            turnaroundTime: t.turnaround_time,
+            fastingRequired: Boolean(t.fasting_required),
+            isAvailable: Boolean(t.is_available),
+          }));
+          setLocal(STORAGE_KEYS.LAB_TESTS, mapped);
+          return mapped;
+        }
+      }
+    } catch {
+      // Backend offline / standalone client fallback
+    }
+
+    // Local Storage Fallback with exact 62 tests
+    let all = getLocal<LabTest[]>(STORAGE_KEYS.LAB_TESTS, initialLabTests);
+    if (!all || all.length === 0) {
+      all = initialLabTests;
+      setLocal(STORAGE_KEYS.LAB_TESTS, all);
+    }
+
+    if (!params) return all;
+
+    return all.filter((t) => {
+      const matchesSearch =
+        !params.search ||
+        t.name.toLowerCase().includes(params.search.toLowerCase()) ||
+        t.fullName.toLowerCase().includes(params.search.toLowerCase()) ||
+        t.category.toLowerCase().includes(params.search.toLowerCase());
+
+      const matchesCategory =
+        !params.category || params.category === 'All' || t.category === params.category;
+
+      const matchesMin = params.minPrice === undefined || t.price >= params.minPrice;
+      const matchesMax = params.maxPrice === undefined || t.price <= params.maxPrice;
+
+      return matchesSearch && matchesCategory && matchesMin && matchesMax;
+    });
+  },
+
+  async getLabTestById(id: string): Promise<LabTest | undefined> {
+    const tests = await this.getLabTests();
+    return tests.find((t) => t.id === id || String(t.slNo) === id);
+  },
+
+  async updateLabTestPrice(id: string, newPrice: number, adminToken?: string): Promise<boolean> {
+    const validPrice = Number(newPrice);
+    if (isNaN(validPrice) || validPrice <= 0) return false;
+
+    // Try backend API first with CSRF and Auth headers
+    try {
+      const csrf = await this.fetchCsrfToken();
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      if (csrf) headers['x-csrf-token'] = csrf;
+      if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+
+      const res = await fetch(`/api/tests/${id}/price`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ price: validPrice }),
+      });
+      if (res.ok) {
+        // Backend successfully updated
+      }
+    } catch {
+      // Fallback
+    }
+
+    // Also update local storage store for reactive instant feedback
+    const tests = getLocal<LabTest[]>(STORAGE_KEYS.LAB_TESTS, initialLabTests);
+    const target = tests.find((t) => t.id === id || String(t.slNo) === id);
+    if (target) {
+      target.price = validPrice;
+      setLocal(STORAGE_KEYS.LAB_TESTS, tests);
+      return true;
+    }
+    return false;
+  },
 };
+

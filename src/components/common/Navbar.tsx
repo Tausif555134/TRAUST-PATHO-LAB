@@ -41,23 +41,45 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-      {/* Top Demo Persona & Emergency Helpline Bar */}
-      <div className="bg-slate-900 text-slate-200 text-xs py-1.5 px-4 sm:px-6">
+      {/* Top Details & 24/7 Helpline Bar */}
+      <div className="bg-obsidian-950 text-slate-200 text-xs py-1.5 px-4 sm:px-6 border-b border-brand-900/50">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          {/* Emergency Helpline */}
-          <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wide">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              24/7 Home Healthcare Dispatch:
+          {/* Reg No & Gaya Address */}
+          <div className="flex items-center gap-3 text-[11px] text-slate-300">
+            <span className="hidden lg:inline text-gold-400 font-bold">
+              Reg. No. 2291212131723
             </span>
+            <span className="hidden md:inline text-slate-400">•</span>
+            <span className="hidden md:inline text-slate-300 truncate max-w-xs xl:max-w-md">
+              📍 Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002
+            </span>
+          </div>
+
+          {/* Emergency 24/7 Helpline & WhatsApp */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5 text-gold-400 font-bold tracking-wide text-xs">
+              <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
+              <span className="hidden sm:inline">24/7 Call:</span>
+              <a href="tel:6206175583" className="hover:text-gold-200 underline decoration-dotted transition">
+                6206175583
+              </a>
+              <span className="text-slate-500">/</span>
+              <a href="tel:6299476228" className="hover:text-gold-200 underline decoration-dotted transition hidden sm:inline">
+                6299476228
+              </a>
+            </div>
+
             <a
-              href={`tel:${hotline}`}
-              className="font-medium text-white hover:text-emerald-300 transition flex items-center gap-1"
+              href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20inquire%20about%20a%20pathology%20test."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded transition flex items-center gap-1"
             >
-              <PhoneCall className="w-3 h-3 text-emerald-400" />
-              {hotline}
+              <PhoneCall className="w-3 h-3" />
+              <span>WhatsApp</span>
             </a>
           </div>
+
 
           {/* Quick Persona Switcher for Evaluation */}
           <div className="flex items-center gap-2 relative">
@@ -174,59 +196,86 @@ export const Navbar: React.FC<{ onOpenAuthModal: () => void }> = ({ onOpenAuthMo
 
       {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-md shadow-brand-500/20 group-hover:bg-brand-700 transition">
-            <HeartPulse className="w-6 h-6 stroke-[2.2]" />
+        {/* Brand Logo with Official Image */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <img
+              src="/trust-patho-lab-logo.jpg"
+              alt="Trust Patho Lab Logo"
+              className="w-11 h-11 rounded-full border-2 border-gold-500 object-cover shadow-md shadow-brand-900/15 group-hover:scale-105 transition duration-200"
+            />
+            <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
           </div>
           <div>
-            <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-brand-600 transition">
-              TRUST <span className="text-brand-600">PATHO LAB</span>
+            <span className="text-xl font-black tracking-tight text-obsidian-950 group-hover:text-brand-800 transition">
+              TRUST <span className="text-gold-600 font-extrabold">PATHO LAB</span>
             </span>
-            <span className="block text-[10px] font-medium tracking-wider text-slate-400 uppercase -mt-1">
-              Pathology & Diagnostics
+            <span className="block text-[10px] font-bold tracking-wider text-brand-800 uppercase -mt-0.5">
+              Pathology Laboratory • Gaya
             </span>
           </div>
         </Link>
 
         {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden lg:flex items-center gap-6">
           <Link
             to="/"
-            className="text-sm font-medium text-slate-700 hover:text-brand-600 transition"
+            className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
           >
             Home
           </Link>
           <a
-            href="/#services-section"
-            className="text-sm font-medium text-slate-700 hover:text-brand-600 transition"
+            href="/#test-price-list"
+            className="text-sm font-bold text-brand-900 hover:text-gold-600 transition flex items-center gap-1.5"
           >
-            Services Catalog
+            <span>Test Price List</span>
+            <span className="text-[10px] bg-gold-100 text-gold-900 border border-gold-400 font-black px-1.5 py-0.5 rounded-full">
+              62 Tests
+            </span>
+          </a>
+          <a
+            href="/#services-section"
+            className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
+          >
+            8 Clinical Facilities
+          </a>
+          <a
+            href="/#lab-details"
+            className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
+          >
+            About Lab & Reg.
           </a>
           <a
             href="/#how-it-works"
-            className="text-sm font-medium text-slate-700 hover:text-brand-600 transition"
+            className="text-sm font-semibold text-slate-700 hover:text-brand-800 transition"
           >
             How It Works
-          </a>
-          <a
-            href="/#trust-section"
-            className="text-sm font-medium text-slate-700 hover:text-brand-600 transition"
-          >
-            Safety & Trust
           </a>
         </nav>
 
         {/* Right Action Icons & Dashboard */}
-        <div className="flex items-center gap-3">
-          {/* Direct CTA */}
+        <div className="flex items-center gap-2.5">
+          {/* Quick WhatsApp Action */}
+          <a
+            href="https://wa.me/916206175583?text=Hello%20Trust%20Patho%20Lab,%20I%20want%20to%20book%20a%20doorstep%20test%20collection."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-2 rounded-xl border border-emerald-300 transition"
+            title="WhatsApp Gaya Desk"
+          >
+            <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
+            <span>WhatsApp</span>
+          </a>
+
+          {/* Direct Booking CTA */}
           <Link
             to="/book"
-            className="hidden sm:inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs px-3.5 py-2 rounded-xl shadow-sm transition active:scale-95"
+            className="inline-flex items-center gap-1.5 bg-brand-900 hover:bg-brand-800 text-gold-300 font-bold text-xs px-3.5 py-2 rounded-xl border border-gold-500/40 shadow-xs transition active:scale-95"
           >
-            <Calendar className="w-3.5 h-3.5" />
-            Book Checkup
+            <Calendar className="w-3.5 h-3.5 text-gold-400" />
+            <span>Book Home Visit</span>
           </Link>
+
 
           {/* Notifications Dropdown */}
           <div className="relative">
