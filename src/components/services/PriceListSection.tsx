@@ -530,9 +530,12 @@ export const PriceListSection: React.FC<PriceListSectionProps> = ({
 
                 <div className="flex items-center justify-center gap-4 py-4 text-center">
                   <img
-                    src="/trust-patho-lab-logo.jpg"
+                    src="/trust-patho-lab-logo.png"
                     alt="Trust Patho Lab Logo"
                     className="w-16 h-16 rounded-full border-2 border-gold-400 object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
+                    }}
                   />
                   <div>
                     <h1 className="text-2xl sm:text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200">

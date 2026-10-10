@@ -385,11 +385,11 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               {/* Logo and lab identity */}
               <div className="flex items-center gap-4 pt-2">
                 <img
-                  src="/trust-patho-lab-logo.jpg"
-                  alt="Trust Patho Lab Logo"
+                  src="/trust-patho-lab-logo.png"
+                  alt="Trust Patho Lab Official Logo"
                   className="w-16 h-16 rounded-full border-2 border-gold-500/60 object-cover shadow-xl shadow-black/40"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
                   }}
                 />
                 <div>
@@ -572,7 +572,14 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
               {/* Contact Card */}
               <div className="lg:col-span-5 bg-obsidian-950 text-white rounded-2xl p-6 sm:p-7 border-2 border-gold-500/40 space-y-4">
                 <div className="flex items-center gap-3">
-                  <img src="/trust-patho-lab-logo.jpg" alt="Logo" className="w-10 h-10 rounded-full border border-gold-400 object-cover" />
+                  <img
+                    src="/trust-patho-lab-logo.png"
+                    alt="Trust Patho Lab Logo"
+                    className="w-10 h-10 rounded-full border border-gold-400 object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
+                    }}
+                  />
                   <div>
                     <h4 className="font-extrabold text-white text-base">Gaya Laboratory Desk</h4>
                     <span className="text-xs text-gold-400">Reg. No. 229112131723</span>

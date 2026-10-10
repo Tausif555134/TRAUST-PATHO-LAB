@@ -35,9 +35,12 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/trust-patho-lab-logo.jpg"
+                src="/trust-patho-lab-logo.png"
                 alt="Trust Patho Lab Logo"
                 className="w-12 h-12 rounded-full border-2 border-gold-400 object-cover shadow-md"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
+                }}
               />
               <div>
                 <span className="text-xl font-black text-white tracking-tight">
