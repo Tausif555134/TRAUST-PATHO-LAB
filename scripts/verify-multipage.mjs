@@ -120,8 +120,21 @@ test('Footer does NOT contain Clinical Notice & Emergency Advisory banner', () =
   assert(!footerContent.includes('Call Emergency (108)'));
 });
 
-test('Footer contains official Medico-Legal Disclaimer', () => {
-  assert(footerContent.includes('NOT TO BE USED FOR MEDICO-LEGAL PURPOSE'));
+test('Footer does NOT contain unwanted medical disclaimer paragraph', () => {
+  assert(!footerContent.includes('NOTICE: THIS REPORT IS ONLY FOR A PROFESSIONAL OPINION'));
+  assert(!footerContent.includes('NOT TO BE USED FOR MEDICO-LEGAL PURPOSE'));
+});
+
+test('Footer does NOT contain removed duplicate copyright or inquiry prompt line', () => {
+  assert(!footerContent.includes('For inquiries, tap the Contact Lab button'));
+  assert(!footerContent.includes('© 2026 Trust Patho Lab (Reg. No. 229112131723)'));
+});
+
+test('Footer retains clean 3-column content without empty container', () => {
+  assert(footerContent.includes('TRUST'));
+  assert(footerContent.includes('Navigation'));
+  assert(footerContent.includes('Central Lab Facility'));
+  assert(footerContent.includes('Gaya Patna Road, Iqbal Nagar, Near Karbala, Gaya – 823002'));
 });
 
 // 5. Verify TestsPage.tsx & 62 Tests

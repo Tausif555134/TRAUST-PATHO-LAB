@@ -84,15 +84,13 @@ export const ContactPage: React.FC = () => {
       <section className="bg-gradient-to-br from-obsidian-950 via-brand-950 to-obsidian-900 text-white border-b border-brand-900/60 py-10 sm:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-900/70 border border-gold-500/40 text-gold-300 text-xs font-bold backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
-              <span>Govt. Reg. No. 229112131723 • Estd. 2024</span>
-              <span className="text-gold-600">•</span>
-              <span>Gaya, Bihar</span>
+            <div className="inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full bg-brand-900/70 border border-gold-500/40 text-gold-300 text-[10px] sm:text-xs font-bold backdrop-blur-sm max-w-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse shrink-0" />
+              <span>Govt. Reg. No. 229112131723 • Estd. 2024 • Gaya, Bihar</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-              Contact & Laboratory{' '}
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight break-words">
+              Contact &amp; Laboratory{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-amber-200">
                 Information
               </span>

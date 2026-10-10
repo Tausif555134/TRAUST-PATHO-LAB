@@ -363,11 +363,11 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onOpenAuthModal }) => 
     <div className="min-h-screen bg-slate-50 py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Wizard Header */}
-        <div className="text-center mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-brand-600">
-            TRUST PATHO LAB Doorstep Diagnostics &amp; Checkup Booking
+        <div className="text-center mb-6 sm:mb-8">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-600 inline-block max-w-full">
+            TRUST PATHO LAB • Doorstep Diagnostics &amp; Checkup Booking
           </span>
-          <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
             Book Healthcare at Home
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">

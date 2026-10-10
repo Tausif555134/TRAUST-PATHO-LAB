@@ -43,33 +43,33 @@ export const HomePage: React.FC<{ onOpenAuthModal?: () => void }> = () => {
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 relative text-center space-y-6">
           {/* Official Accreditation Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-900/80 border border-gold-500/40 text-gold-300 text-xs font-bold backdrop-blur-sm shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
-            <span>Govt. Reg. No. 229112131723 • Estd. 2024 • Gaya, Bihar</span>
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 max-w-full px-3 py-1 rounded-full bg-brand-900/80 border border-gold-500/40 text-gold-300 text-[10px] sm:text-xs font-bold backdrop-blur-sm shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse shrink-0" />
+            <span className="text-center">Govt. Reg. No. 229112131723 • Estd. 2024 • Gaya, Bihar</span>
           </div>
 
           {/* Logo & Lab Identity */}
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
             <img
               src="/trust-patho-lab-logo.png"
               alt="Trust Patho Lab"
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-gold-400 object-cover shadow-lg shrink-0"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-gold-400 object-cover shadow-lg shrink-0"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/trust-patho-lab-logo.jpg';
               }}
             />
-            <div className="text-left">
-              <div className="text-xl sm:text-2xl font-black text-white tracking-wide">
+            <div className="text-left min-w-0">
+              <div className="text-lg sm:text-2xl font-black text-white tracking-wide truncate">
                 TRUST <span className="text-gold-400">PATHO LAB</span>
               </div>
-              <div className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              <div className="text-[9px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-widest truncate">
                 Pathology Laboratory • Central Desk Gaya
               </div>
             </div>
           </div>
 
           {/* Concise Headline */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-white max-w-3xl mx-auto">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-white max-w-3xl mx-auto break-words">
             Trusted Pathology{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-amber-200">
               at Your Doorstep
